@@ -1,13 +1,13 @@
-package com.erjose.tecnocampus;
+package com.erjose.erjose;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TecnoCampusApplicationTests {
+class ErJoSeApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
