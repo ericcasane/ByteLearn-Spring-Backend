@@ -1,10 +1,10 @@
-package com.erjose.erjose;
+package com.tecnocampus.projecterjose;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ErJoSeApplicationTests {
+class ProjectErJoSeApplicationTests {
 
     @Test
     void contextLoads() {

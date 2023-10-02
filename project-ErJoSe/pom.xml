@@ -8,11 +8,11 @@
         <version>3.1.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.erjose</groupId>
-    <artifactId>ErJoSe</artifactId>
+    <groupId>com.tecnocampus</groupId>
+    <artifactId>project-ErJoSe</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ErJoSe</name>
-    <description>ErJoSe</description>
+    <name>project-ErJoSe</name>
+    <description>project-ErJoSe</description>
     <properties>
         <java.version>17</java.version>
     </properties>

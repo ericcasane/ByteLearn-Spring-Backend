@@ -1,13 +1,13 @@
-package com.erjose.erjose;
+package com.tecnocampus.projecterjose;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ErJoSeApplication {
+public class ProjectErJoSeApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ErJoSeApplication.class, args);
+        SpringApplication.run(ProjectErJoSeApplication.class, args);
     }
 
 }
