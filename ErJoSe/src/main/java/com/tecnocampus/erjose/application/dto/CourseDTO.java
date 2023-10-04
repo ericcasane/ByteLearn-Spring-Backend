@@ -32,7 +32,7 @@ public class CourseDTO {
         this.id = course.getId();
         this.title = course.getTitle();
         this.description = course.getDescription();
-        this.publicationDate = course.getPublicationDate();
+        this.publicationDate = course.getCreationDate();
         this.lastUpdateDate = course.getLastUpdateDate();
         this.imageUrl = course.getImageUrl();
         this.currentPrice = course.getCurrentPrice();

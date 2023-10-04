@@ -1,5 +1,6 @@
 package com.tecnocampus.erjose.domain;
 
+import com.tecnocampus.erjose.application.dto.CourseDTO;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -13,14 +14,45 @@ public class Course {
 
     private String title;
     private String description;
-    private LocalDate publicationDate;
+    private LocalDate creationDate;
     private LocalDate lastUpdateDate;
     private String imageUrl;
-    private Double currentPrice;
-    private Boolean available;
+    private double currentPrice;
+    private boolean available;
 
     public Course() {
 
+    }
+
+    public Course(CourseDTO courseDTO) {
+        this.title = courseDTO.getTitle();
+        this.description = courseDTO.getDescription();
+        this.imageUrl = courseDTO.getImageUrl();
+        this.creationDate = LocalDate.now();
+        this.lastUpdateDate = LocalDate.now();
+        this.currentPrice = 0.0;
+        this.available = false;
+    }
+
+    public void updateCourse(CourseDTO courseDTO) {
+        this.title = courseDTO.getTitle();
+        this.description = courseDTO.getDescription();
+        this.available = courseDTO.isAvailable();
+        this.updateDate();
+    }
+
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
+        this.updateDate();
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+        this.updateDate();
+    }
+
+    public void updateDate() {
+        this.lastUpdateDate = LocalDate.now();
     }
 
     public Long getId() {
@@ -35,8 +67,8 @@ public class Course {
         return description;
     }
 
-    public LocalDate getPublicationDate() {
-        return publicationDate;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
     public LocalDate getLastUpdateDate() {
