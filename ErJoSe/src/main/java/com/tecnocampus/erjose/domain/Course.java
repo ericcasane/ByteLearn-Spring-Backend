@@ -34,21 +34,24 @@ public class Course {
         this.available = false;
     }
 
-    public void updateCourse(CourseDTO courseDTO) {
-        this.title = courseDTO.getTitle();
-        this.description = courseDTO.getDescription();
-        this.available = courseDTO.isAvailable();
-        this.updateDate();
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setImageURL(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void setCurrentPrice(double currentPrice) {
         this.currentPrice = currentPrice;
-        this.updateDate();
     }
 
     public void setAvailable(boolean available) {
         this.available = available;
-        this.updateDate();
     }
 
     public void updateDate() {

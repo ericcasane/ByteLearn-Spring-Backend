@@ -25,9 +25,9 @@ public class CourseRestController {
         return courseService.createCourse(courseDTO);
     }
     
-    @PatchMapping("/courses/{courseId}")
-    public CourseDTO updateCourse(@PathVariable Long courseId, @RequestBody CourseDTO courseDTO) {
-
+    @PatchMapping("/courses/{courseId}") //Update course title, description or image url
+    public CourseDTO updateCourse(@PathVariable Long courseId, @RequestBody Map<String, String> updates) {
+        return courseService.updateCourseTitleDescrOrImageURL(courseId, updates);
     }
 
     @PatchMapping("/courses/{courseId}/price")

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,9 +29,12 @@ public class CourseService {
         return courses.stream().map(CourseDTO::new).collect(Collectors.toList());
     }
 
-    public CourseDTO modifyCourse(Long id, CourseDTO courseDTO) {
+    public CourseDTO updateCourseTitleDescrOrImageURL(Long id, Map<String, String> updates) {
         Course course = courseRepository.findById(id).get();
-        course.updateCourse(courseDTO);
+        if (updates.containsKey("title")) course.setTitle(updates.get("title"));
+        if (updates.containsKey("description")) course.setDescription(updates.get("description"));
+        if (updates.containsKey("imageUrl")) course.setImageURL(updates.get("imageUrl"));
+        course.updateDate();
         courseRepository.save(course);
         return new CourseDTO(course);
     }
@@ -38,6 +42,7 @@ public class CourseService {
     public CourseDTO updatePrice(Long id, double currentPrice) {
         Course course = courseRepository.findById(id).get();
         course.setCurrentPrice(currentPrice);
+        course.updateDate();
         courseRepository.save(course);
         return new CourseDTO(course);
     }
@@ -45,6 +50,7 @@ public class CourseService {
     public CourseDTO updateAvailable(Long id, boolean available) {
         Course course = courseRepository.findById(id).get();
         course.setAvailable(available);
+        course.updateDate();
         courseRepository.save(course);
         return new CourseDTO(course);
     }
