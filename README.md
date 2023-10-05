@@ -6,7 +6,7 @@
 | GET | /courses | Get all courses (stakeholder) |
 | POST | /courses | Create a new course (teacher) |
 | PATCH | /courses/{courseId} | Update course title, description or image url (stakeholder) |
-| PATCH | /courses/{courseId}/price | Update price availability (stakeholder) |
+| PATCH | /courses/{courseId}/price | Update course price (stakeholder) |
 | PATCH | /courses/{courseId}/available | Update course availability (stakeholder) |
 
 ## Project Sprint Status
