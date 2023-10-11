@@ -2,6 +2,7 @@ package com.tecnocampus.erjose.application;
 
 import com.tecnocampus.erjose.application.dto.CourseDTO;
 import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
+import com.tecnocampus.erjose.application.exception.CourseTitleDuplicatedException;
 import com.tecnocampus.erjose.domain.Course;
 import com.tecnocampus.erjose.persistence.CourseRepository;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class CourseService {
     }
 
     public CourseDTO createCourse(CourseDTO courseDTO){
+        if(courseRepository.existsByTitle(courseDTO.getTitle()))
+            throw new CourseTitleDuplicatedException(courseDTO.getTitle());
         Course course = new Course(courseDTO);
         courseRepository.save(course);
         return new CourseDTO(course);

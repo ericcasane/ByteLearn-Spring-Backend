@@ -10,5 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CourseRepository extends JpaRepository<Course, Long>  {
-        List<Course> findByAvailableOrderByTitle(boolean available);
+    List<Course> findByAvailableOrderByTitle(boolean available);
+    boolean existsByTitle(String title);
 }
