@@ -60,5 +60,11 @@ public class CourseService {
         return new CourseDTO(course);
     }
 
+    public List<CourseDTO> getCoursesByTitleOrDescription(String search) {
+        List<Course> courses = courseRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByTitle(search, search);
+        return courses.stream().map(course -> new CourseDTO(course.getTitle(), course.getDescription())).collect(Collectors.toList());
+    }
+
+
 }
 
