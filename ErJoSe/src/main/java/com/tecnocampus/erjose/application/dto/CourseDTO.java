@@ -2,18 +2,21 @@ package com.tecnocampus.erjose.application.dto;
 
 
 import com.tecnocampus.erjose.domain.Course;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class CourseDTO {
     private Long id;
-
     private String title;
     private String description;
     private LocalDate publicationDate;
     private LocalDate lastUpdateDate;
     private String imageUrl;
-    private double currentPrice;
+    private BigDecimal currentPrice;
     private boolean available;
 
     public CourseDTO() {
@@ -35,7 +38,7 @@ public class CourseDTO {
         this.publicationDate = course.getCreationDate();
         this.lastUpdateDate = course.getLastUpdateDate();
         this.imageUrl = course.getImageUrl();
-        this.currentPrice = course.getCurrentPrice();
+        this.currentPrice = course.getCurrentPrice() ;
         this.available = course.isAvailable();
     }
 
@@ -49,7 +52,7 @@ public class CourseDTO {
 
     public String getImageUrl() { return imageUrl; }
 
-    public double getCurrentPrice() { return currentPrice; }
+    public BigDecimal getCurrentPrice() { return currentPrice; }
 
     public boolean isAvailable() { return available; }
 }

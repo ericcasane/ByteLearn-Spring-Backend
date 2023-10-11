@@ -2,6 +2,7 @@ package com.tecnocampus.erjose.api;
 
 import com.tecnocampus.erjose.application.CourseService;
 import com.tecnocampus.erjose.application.dto.CourseDTO;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class CourseRestController {
     }
 
     @PostMapping("/courses")
-    public CourseDTO createCourse(@RequestBody CourseDTO courseDTO) {
+    public CourseDTO createCourse(@Valid @RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }
     
@@ -31,12 +32,12 @@ public class CourseRestController {
     }
 
     @PatchMapping("/courses/{courseId}/price")
-    public CourseDTO updateCoursePrice(@PathVariable Long courseId, @RequestBody CourseDTO courseDTO) {
+    public CourseDTO updateCoursePrice(@PathVariable Long courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updatePrice(courseId, courseDTO.getCurrentPrice());
     }
 
     @PatchMapping("/courses/{courseId}/available")
-    public CourseDTO updateCourseAvailable(@PathVariable Long courseId, @RequestBody CourseDTO courseDTO) {
+    public CourseDTO updateCourseAvailable(@PathVariable Long courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updateAvailable(courseId, courseDTO.isAvailable());
     }
 }

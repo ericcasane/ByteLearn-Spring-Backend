@@ -2,7 +2,11 @@ package com.tecnocampus.erjose.domain;
 
 import com.tecnocampus.erjose.application.dto.CourseDTO;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Pattern;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -11,13 +15,14 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Pattern(regexp = "^[A-Z]")
     private String title;
     private String description;
     private LocalDate creationDate;
     private LocalDate lastUpdateDate;
     private String imageUrl;
-    private double currentPrice;
+    @DecimalMin(value = "0.0", inclusive = false)
+    private BigDecimal currentPrice;
     private boolean available;
 
     public Course() {
@@ -30,7 +35,7 @@ public class Course {
         this.imageUrl = courseDTO.getImageUrl();
         this.creationDate = LocalDate.now();
         this.lastUpdateDate = LocalDate.now();
-        this.currentPrice = 0.0;
+        this.currentPrice = new BigDecimal("0.0");
         this.available = false;
     }
 
@@ -46,7 +51,7 @@ public class Course {
         this.imageUrl = imageUrl;
     }
 
-    public void setCurrentPrice(double currentPrice) {
+    public void setCurrentPrice(BigDecimal currentPrice) {
         this.currentPrice = currentPrice;
     }
 
@@ -82,7 +87,7 @@ public class Course {
         return imageUrl;
     }
 
-    public double getCurrentPrice() {
+    public BigDecimal getCurrentPrice() {
         return currentPrice;
     }
 
