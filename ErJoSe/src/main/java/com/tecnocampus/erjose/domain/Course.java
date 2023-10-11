@@ -15,13 +15,13 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Pattern(regexp = "^[A-Z]")
+    @Pattern(regexp = "^[A-Z].*", message = "Title must begin with a capital letter")
     private String title;
     private String description;
     private LocalDate creationDate;
     private LocalDate lastUpdateDate;
     private String imageUrl;
-    @DecimalMin(value = "0.0", inclusive = false)
+    @DecimalMin(value = "0.0", inclusive = true, message = "Price must be greater than 0")
     private BigDecimal currentPrice;
     private boolean available;
 
