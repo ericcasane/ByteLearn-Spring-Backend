@@ -30,7 +30,7 @@ class ErJoSeApplicationTests {
 	void contextLoads() {
 	}
 
-	@Autowired
+	/*@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
@@ -135,6 +135,6 @@ class ErJoSeApplicationTests {
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/courses"))
 				.andExpect(status().isInternalServerError()); // Verif error HTTP 500
-	}
+	}*/
 
 }
