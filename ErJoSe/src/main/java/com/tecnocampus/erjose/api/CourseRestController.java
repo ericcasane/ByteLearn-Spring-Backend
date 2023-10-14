@@ -17,8 +17,12 @@ public class CourseRestController {
     }
 
     @GetMapping("/courses")
-    public List<CourseDTO> getCourses() {
-        return courseService.getCoursesAvailable();
+    public List<CourseDTO> getCourses(@RequestParam(required = false) String search) {
+        if (search != null) {
+            return courseService.getCoursesByTitleAndDescription(search);
+        } else {
+            return courseService.getCoursesAvailable();
+        }
     }
 
     @PostMapping("/courses")
@@ -39,11 +43,6 @@ public class CourseRestController {
     @PatchMapping("/courses/{courseId}/available")
     public CourseDTO updateCourseAvailable(@PathVariable Long courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updateAvailable(courseId, courseDTO.isAvailable());
-    }
-
-    @GetMapping("/courses/search")
-    public List<CourseDTO> searchCourses(@RequestParam String search) {
-        return courseService.getCoursesByTitleOrDescription(search);
     }
 
 }

@@ -8,7 +8,6 @@ import com.tecnocampus.erjose.persistence.CourseRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -60,11 +59,15 @@ public class CourseService {
         return new CourseDTO(course);
     }
 
-    public List<CourseDTO> getCoursesByTitleOrDescription(String search) {
-        List<Course> courses = courseRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByTitle(search, search);
+    public List<CourseDTO> getCoursesByTitleOrDescription(String text) {
+        List<Course> courses = courseRepository.findByTitleOrDescriptionOrderByTitle(text);
         return courses.stream().map(course -> new CourseDTO(course.getTitle(), course.getDescription())).collect(Collectors.toList());
     }
 
 
+    public List<CourseDTO> getCoursesByTitleAndDescription(String title) {
+        List<Course> courses = courseRepository.findByTitleAndDescriptionOrderByTitle(title, description);
+        return courses.stream().map(CourseDTO::new).collect(Collectors.toList());
+    }
 }
 

@@ -4,17 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a0127be-6330-4cd9-a4c2-821d470eff19" name="Changes" comment="" />
+    <list default="true" id="9a0127be-6330-4cd9-a4c2-821d470eff19" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/group-project-er-jose.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ErJoSe/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/ErJoSe/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ErJoSe/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ErJoSe/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ErJoSe/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/ErJoSe/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ErJoSe/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/ErJoSe/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ErJoSe/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ErJoSe/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ErJoSe/src/main/java/com/erjose/erjose/ErJoSeApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ErJoSe/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ErJoSe/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ErJoSe/src/test/java/com/erjose/erjose/ErJoSeApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tecnocampus/projecterjose/ProjectErJoSeApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tecnocampus/projecterjose/ProjectErJoSeApplicationTests.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -49,13 +66,13 @@
       <option name="presentableId" value="Default" />
       <updated>1696241202295</updated>
       <workItem from="1696241205915" duration="185000" />
+<<<<<<< HEAD
       <workItem from="1697213580564" duration="187000" />
       <workItem from="1697213837323" duration="15000" />
       <workItem from="1697213898524" duration="90000" />
+=======
+>>>>>>> parent of f8e8cff (Update workspace.xml)
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
 </project>
