@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record CourseDTO (Long id, String title, String description, LocalDate publicationDate, LocalDate lastUpdateDate, String imageUrl, BigDecimal currentPrice, boolean available) {
+public record CourseDTO (String id, String title, String description, LocalDate publicationDate, LocalDate lastUpdateDate, String imageUrl, BigDecimal currentPrice, boolean available) {
     public CourseDTO(Course course) {
         this(course.getId(), course.getTitle(), course.getDescription(), course.getCreationDate(),
                 course.getLastUpdateDate(), course.getImageUrl(), course.getCurrentPrice(), course.isAvailable());

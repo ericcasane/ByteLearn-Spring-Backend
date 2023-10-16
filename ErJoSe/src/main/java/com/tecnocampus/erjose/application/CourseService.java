@@ -1,7 +1,7 @@
 package com.tecnocampus.erjose.application;
 
 import com.tecnocampus.erjose.application.dto.CourseDTO;
-import com.tecnocampus.erjose.application.dto.CourseProjectionDTO;
+import com.tecnocampus.erjose.application.dto.SearchCourseDTO;
 import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
 import com.tecnocampus.erjose.application.exception.CourseTitleDuplicatedException;
 import com.tecnocampus.erjose.domain.Course;
@@ -36,7 +36,7 @@ public class CourseService {
     }
 
     @Transactional
-    public CourseDTO updateCourseTitleDescrOrImageURL(Long id, Map<String, String> updates) {
+    public CourseDTO updateCourseTitleDescrOrImageURL(String id, Map<String, String> updates) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         if (updates.containsKey("title")) course.setTitle(updates.get("title"));
         if (updates.containsKey("description")) course.setDescription(updates.get("description"));
@@ -46,7 +46,7 @@ public class CourseService {
     }
 
     @Transactional
-    public CourseDTO updatePrice(Long id, BigDecimal currentPrice) {
+    public CourseDTO updatePrice(String id, BigDecimal currentPrice) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         course.setCurrentPrice(currentPrice);
         course.updateDate();
@@ -54,16 +54,16 @@ public class CourseService {
     }
 
     @Transactional
-    public CourseDTO updateAvailable(Long id, boolean available) {
+    public CourseDTO updateAvailable(String id, boolean available) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         course.setAvailable(available);
         course.updateDate();
         return new CourseDTO(course);
     }
 
-    public List<CourseProjectionDTO> getCoursesByTitleOrDescription(String search) {
-        List<Course> courses = courseRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByTitle(search, search);
-        return courses.stream().map(course -> new CourseProjectionDTO(course.getTitle(), course.getDescription())).collect(Collectors.toList());
+    public List<SearchCourseDTO> getCoursesByTitleOrDescription(String search) {
+        List<Course> courses = courseRepository.findByTitleOrDescription(search);
+        return courses.stream().map(course -> new SearchCourseDTO(course.getTitle(), course.getDescription())).collect(Collectors.toList());
     }
 }
 

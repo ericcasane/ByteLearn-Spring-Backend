@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,8 +15,8 @@ import java.util.UUID;
 @Table(name = "courses")
 public class Course {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @UuidGenerator
+    private String id;
     @Pattern(regexp = "^[A-Z].*", message = "Title must begin with a capital letter")
     private String title;
     private String description;
@@ -64,7 +65,7 @@ public class Course {
         this.lastUpdateDate = LocalDate.now();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

@@ -33,19 +33,19 @@ public class CourseRestController {
     
     @PatchMapping("/courses/{courseId}")
     @Operation(summary = "Update course title, description or image url")
-    public CourseDTO updateCourse(@PathVariable Long courseId, @RequestBody Map<String, String> updates) {
+    public CourseDTO updateCourse(@PathVariable String courseId, @RequestBody Map<String, String> updates) {
         return courseService.updateCourseTitleDescrOrImageURL(courseId, updates);
     }
 
     @PatchMapping("/courses/{courseId}/price")
     @Operation(summary = "Update course price")
-    public CourseDTO updateCoursePrice(@PathVariable Long courseId, @Valid @RequestBody CourseDTO courseDTO) {
+    public CourseDTO updateCoursePrice(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updatePrice(courseId, courseDTO.currentPrice());
     }
 
     @PatchMapping("/courses/{courseId}/available")
     @Operation(summary = "Update course available")
-    public CourseDTO updateCourseAvailable(@PathVariable Long courseId, @Valid @RequestBody CourseDTO courseDTO) {
+    public CourseDTO updateCourseAvailable(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updateAvailable(courseId, courseDTO.available());
     }
 
