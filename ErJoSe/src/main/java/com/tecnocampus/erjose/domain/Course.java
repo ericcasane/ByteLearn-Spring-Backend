@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Pattern;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "courses")
@@ -30,9 +31,9 @@ public class Course {
     }
 
     public Course(CourseDTO courseDTO) {
-        this.title = courseDTO.getTitle();
-        this.description = courseDTO.getDescription();
-        this.imageUrl = courseDTO.getImageUrl();
+        this.title = courseDTO.title();
+        this.description = courseDTO.description();
+        this.imageUrl = courseDTO.imageUrl();
         this.creationDate = LocalDate.now();
         this.lastUpdateDate = LocalDate.now();
         this.currentPrice = new BigDecimal("0.0");

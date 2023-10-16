@@ -23,8 +23,8 @@ public class CourseService {
     }
 
     public CourseDTO createCourse(CourseDTO courseDTO){
-        if(courseRepository.existsByTitle(courseDTO.getTitle()))
-            throw new CourseTitleDuplicatedException(courseDTO.getTitle());
+        if(courseRepository.existsByTitle(courseDTO.title()))
+            throw new CourseTitleDuplicatedException(courseDTO.title());
         Course course = new Course(courseDTO);
         courseRepository.save(course);
         return new CourseDTO(course);
