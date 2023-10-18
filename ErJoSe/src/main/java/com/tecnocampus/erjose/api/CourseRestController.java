@@ -18,7 +18,7 @@ public class CourseRestController {
     }
 
     @GetMapping("/courses")
-    @Operation(summary = "Get all courses or search by title or description")
+    @Operation(summary = "Get all available courses or search by title or description")
     public List<?> getCourses(@RequestParam(required = false) String search) {
         if (search != null)
             return courseService.getCoursesByTitleOrDescription(search);

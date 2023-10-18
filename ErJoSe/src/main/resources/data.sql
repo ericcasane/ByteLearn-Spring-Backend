@@ -1,7 +1,7 @@
 INSERT INTO courses (id, title, description, creation_date, last_update_date, image_url, current_price, available)
 VALUES
-    (random_uuid(), 'Full-Stack Web Development with Spring Boot 3 & React', 'Build full-stack web applications using Java, Spring Boot 3, Spring Data JPA, Spring Security, JWT, JavaScript, React JS & MySQL.', current_date, current_date,  '/images/nodejs.jpg', 64.99, true),
-    (random_uuid(), 'Web Development with JavaScript', 'Master web development using JavaScript and related technologies.', current_date, current_date, '/images/javascript.jpg', 59.99, false),
-    (random_uuid(), 'Data Science and Machine Learning', 'Explore data science and machine learning with practical examples.', current_date, current_date, '/images/datascience.jpg', 69.99, false),
-    (random_uuid(), 'Java Programming for Beginners', 'Get started with Java programming from scratch.', current_date, current_date, '/images/java.jpg', 54.99, true),
-    (random_uuid(), 'Introduction to Python Programming', 'Learn the fundamentals of Python programming language.', current_date, current_date, '/images/python.jpg', 49.99, true);
+    ('c40edb92-17b3-4f3a-9758-9df565aa04f1', 'Full-Stack Web Development with Spring Boot 3 & React', 'Build full-stack web applications using Java, Spring Boot 3, Spring Data JPA, Spring Security, JWT, JavaScript, React JS & MySQL.', current_date, current_date,  '/images/nodejs.jpg', 64.99, true),
+    ('59e06854-3406-449f-8f0e-292d65756ed8', 'Web Development with JavaScript', 'Master web development using JavaScript and related technologies.', current_date, current_date, '/images/javascript.jpg', 59.99, false),
+    ('efd61065-409b-4962-b619-09a324ad0f50', 'Data Science and Machine Learning', 'Explore data science and machine learning with practical examples.', current_date, current_date, '/images/datascience.jpg', 69.99, false),
+    ('cdb63d03-18c2-41bd-baeb-0303b0c49571', 'Java Programming for Beginners', 'Get started with Java programming from scratch.', current_date, current_date, '/images/java.jpg', 54.99, true),
+    ('cecfd4a6-53e9-4a2e-bcd3-7a8d40773498', 'Introduction to Python Programming', 'Learn the fundamentals of Python programming language.', current_date, current_date, '/images/python.jpg', 49.99, true);
