@@ -2,6 +2,8 @@ package com.tecnocampus.erjose.api;
 
 import com.tecnocampus.erjose.application.CourseService;
 import com.tecnocampus.erjose.application.dto.CourseDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,29 +18,37 @@ public class CourseRestController {
     }
 
     @GetMapping("/courses")
-    public List<CourseDTO> getCourses() {
+    @Operation(summary = "Get all available courses or search by title or description")
+    public List<?> getCourses(@RequestParam(required = false) String search) {
+        if (search != null)
+            return courseService.getCoursesByTitleOrDescription(search);
         return courseService.getCoursesAvailable();
     }
 
     @PostMapping("/courses")
-    public CourseDTO createCourse(@RequestBody CourseDTO courseDTO) {
+    @Operation(summary = "Create a new course")
+    public CourseDTO createCourse(@Valid @RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }
     
-    @PatchMapping("/courses/{courseId}") //Update course title, description or image url
-    public CourseDTO updateCourse(@PathVariable Long courseId, @RequestBody Map<String, String> updates) {
+    @PatchMapping("/courses/{courseId}")
+    @Operation(summary = "Update course title, description or image url")
+    public CourseDTO updateCourse(@PathVariable String courseId, @RequestBody Map<String, String> updates) {
         return courseService.updateCourseTitleDescrOrImageURL(courseId, updates);
     }
 
     @PatchMapping("/courses/{courseId}/price")
-    public CourseDTO updateCoursePrice(@PathVariable Long courseId, @RequestBody CourseDTO courseDTO) {
-        return courseService.updatePrice(courseId, courseDTO.getCurrentPrice());
+    @Operation(summary = "Update course price")
+    public CourseDTO updateCoursePrice(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
+        return courseService.updatePrice(courseId, courseDTO.currentPrice());
     }
 
     @PatchMapping("/courses/{courseId}/available")
-    public CourseDTO updateCourseAvailable(@PathVariable Long courseId, @RequestBody CourseDTO courseDTO) {
-        return courseService.updateAvailable(courseId, courseDTO.isAvailable());
+    @Operation(summary = "Update course available")
+    public CourseDTO updateCourseAvailable(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
+        return courseService.updateAvailable(courseId, courseDTO.available());
     }
+
 }
 
 

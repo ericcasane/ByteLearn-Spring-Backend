@@ -1,11 +1,15 @@
 package com.tecnocampus.erjose.application;
 
 import com.tecnocampus.erjose.application.dto.CourseDTO;
+import com.tecnocampus.erjose.application.dto.SearchCourseDTO;
+import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
+import com.tecnocampus.erjose.application.exception.CourseTitleDuplicatedException;
 import com.tecnocampus.erjose.domain.Course;
 import com.tecnocampus.erjose.persistence.CourseRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,6 +23,8 @@ public class CourseService {
     }
 
     public CourseDTO createCourse(CourseDTO courseDTO){
+        if(courseRepository.existsByTitle(courseDTO.title()))
+            throw new CourseTitleDuplicatedException(courseDTO.title());
         Course course = new Course(courseDTO);
         courseRepository.save(course);
         return new CourseDTO(course);
@@ -29,31 +35,35 @@ public class CourseService {
         return courses.stream().map(CourseDTO::new).collect(Collectors.toList());
     }
 
-    public CourseDTO updateCourseTitleDescrOrImageURL(Long id, Map<String, String> updates) {
-        Course course = courseRepository.findById(id).get();
+    @Transactional
+    public CourseDTO updateCourseTitleDescrOrImageURL(String id, Map<String, String> updates) {
+        Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         if (updates.containsKey("title")) course.setTitle(updates.get("title"));
         if (updates.containsKey("description")) course.setDescription(updates.get("description"));
         if (updates.containsKey("imageUrl")) course.setImageURL(updates.get("imageUrl"));
         course.updateDate();
-        courseRepository.save(course);
         return new CourseDTO(course);
     }
 
-    public CourseDTO updatePrice(Long id, double currentPrice) {
-        Course course = courseRepository.findById(id).get();
+    @Transactional
+    public CourseDTO updatePrice(String id, BigDecimal currentPrice) {
+        Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         course.setCurrentPrice(currentPrice);
         course.updateDate();
-        courseRepository.save(course);
         return new CourseDTO(course);
     }
 
-    public CourseDTO updateAvailable(Long id, boolean available) {
-        Course course = courseRepository.findById(id).get();
+    @Transactional
+    public CourseDTO updateAvailable(String id, boolean available) {
+        Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         course.setAvailable(available);
         course.updateDate();
-        courseRepository.save(course);
         return new CourseDTO(course);
     }
 
+    public List<SearchCourseDTO> getCoursesByTitleOrDescription(String search) {
+        List<Course> courses = courseRepository.findByTitleOrDescription(search);
+        return courses.stream().map(course -> new SearchCourseDTO(course.getTitle(), course.getDescription())).collect(Collectors.toList());
+    }
 }
 
