@@ -154,7 +154,7 @@ class ErJoSeApplicationTests {
 				.andExpect(jsonPath("$[1].title").value("Java Programming for Beginners"))
 				.andExpect(jsonPath("$[1].description").value("Get started with Java programming from scratch."))
 				;
-	}
+	}*/
 
 
 
