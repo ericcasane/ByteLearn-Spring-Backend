@@ -1,9 +1,7 @@
 package com.tecnocampus.erjose.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import org.hibernate.annotations.UuidGenerator;
 
 @Entity
@@ -13,10 +11,11 @@ public class User {
     @UuidGenerator
     private String id;
     private String name;
-    private String secondName;
-    private String thirdName;
+    private String surname;
+    @Email
     private String email;
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     @Column(unique = true)
     private String username;
 

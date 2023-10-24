@@ -27,6 +27,12 @@ public class Course {
     private BigDecimal currentPrice;
     private boolean available;
 
+    @ManyToOne
+    private Category category;
+
+    @ManyToOne
+    private Language language;
+
     public Course() {
 
     }

@@ -62,8 +62,7 @@ public class CourseService {
     }
 
     public List<SearchCourseDTO> getCoursesByTitleOrDescription(String search) {
-        List<Course> courses = courseRepository.findByTitleOrDescription(search);
-        return courses.stream().map(course -> new SearchCourseDTO(course.getTitle(), course.getDescription())).collect(Collectors.toList());
+        return courseRepository.findByTitleOrDescription(search);
     }
 }
 
