@@ -8,7 +8,7 @@ import java.util.List;
 @Table(name = "languages")
 public class Language {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(unique = true)
     private String name;
