@@ -4,7 +4,9 @@ import com.tecnocampus.erjose.application.dto.CourseDTO;
 import com.tecnocampus.erjose.application.dto.SearchCourseDTO;
 import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
 import com.tecnocampus.erjose.application.exception.CourseTitleDuplicatedException;
+import com.tecnocampus.erjose.domain.Category;
 import com.tecnocampus.erjose.domain.Course;
+import com.tecnocampus.erjose.domain.Language;
 import com.tecnocampus.erjose.persistence.CourseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +24,11 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public CourseDTO createCourse(CourseDTO courseDTO){
-        if(courseRepository.existsByTitle(courseDTO.title()))
+    public CourseDTO createCourse(CourseDTO courseDTO) {
+        if (courseRepository.existsByTitle(courseDTO.title()))
             throw new CourseTitleDuplicatedException(courseDTO.title());
         Course course = new Course(courseDTO);
+        course.setAvailable(false);//por si acaso lo dejo para cumplir sprint 2.6
         courseRepository.save(course);
         return new CourseDTO(course);
     }
@@ -64,5 +67,16 @@ public class CourseService {
     public List<SearchCourseDTO> getCoursesByTitleOrDescription(String search) {
         return courseRepository.findByTitleOrDescription(search);
     }
-}
 
+    public List<SearchCourseDTO> getCoursesByCategoryAndLanguage(long category, long language) {
+        return courseRepository.findByCategoryIdAndLanguageId(category, language);
+    }
+
+    public List<SearchCourseDTO> getCoursesByLanguage(long language) {
+        return courseRepository.findByLanguageId(language);
+    }
+
+    public List<SearchCourseDTO> getCoursesByCategory(long category) {
+        return courseRepository.findByCategoryId(category);
+    }
+}

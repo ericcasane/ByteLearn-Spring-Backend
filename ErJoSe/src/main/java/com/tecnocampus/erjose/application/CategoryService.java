@@ -4,6 +4,7 @@ import com.tecnocampus.erjose.application.dto.CategoryDTO;
 import com.tecnocampus.erjose.domain.Category;
 import com.tecnocampus.erjose.persistence.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,11 @@ public class CategoryService {
         Category category = new Category(categoryDTO);
         categoryRepository.save(category);
         return new CategoryDTO(category);
+    }
+
+    @Transactional
+    public void deleteCategory(String id) {
+        categoryRepository.deleteById(id);
     }
 
 }

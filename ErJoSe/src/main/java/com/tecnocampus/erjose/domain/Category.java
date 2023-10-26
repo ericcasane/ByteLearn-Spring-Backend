@@ -15,7 +15,7 @@ public class Category {
     private String name;
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private List<Course> courseList;
 
     public Category() {

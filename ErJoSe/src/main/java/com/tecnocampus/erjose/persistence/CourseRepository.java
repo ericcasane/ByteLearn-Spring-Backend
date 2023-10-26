@@ -1,7 +1,9 @@
 package com.tecnocampus.erjose.persistence;
 
 import com.tecnocampus.erjose.application.dto.SearchCourseDTO;
+import com.tecnocampus.erjose.domain.Category;
 import com.tecnocampus.erjose.domain.Course;
+import com.tecnocampus.erjose.domain.Language;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -15,5 +17,9 @@ public interface CourseRepository extends JpaRepository<Course, String>  {
             "OR LOWER(c.description) LIKE LOWER(CONCAT('%', :search, '%')) " +
             "ORDER BY c.title")
     List<SearchCourseDTO> findByTitleOrDescription(String search);
+
+    List<SearchCourseDTO> findByCategoryIdAndLanguageId(long category, long language);
+    List<SearchCourseDTO> findByLanguageId(long language);
+    List<SearchCourseDTO> findByCategoryId(long category);
 
 }

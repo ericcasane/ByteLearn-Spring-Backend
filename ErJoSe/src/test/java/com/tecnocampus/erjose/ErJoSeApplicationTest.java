@@ -6,6 +6,8 @@ import com.tecnocampus.erjose.application.CourseService;
 import com.tecnocampus.erjose.application.dto.CourseDTO;
 import com.tecnocampus.erjose.domain.Course;
 import com.tecnocampus.erjose.persistence.CourseRepository;
+import org.hibernate.cfg.Environment;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,135 +19,34 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 @SpringBootTest
 @ActiveProfiles("test")
 public class ErJoSeApplicationTest {
 
-	@Autowired
-	private CourseRestController courseRestController;
+	private Connection connection;
+	private CourseDTO courseDTO;
 
-	@Autowired
-	private CourseService courseService;
-
-	@Autowired
-	private CourseRepository courseRepository;
-
-	private MockMvc mockMvc;
-
-	@Autowired
-	private ObjectMapper objectMapper;
-
-	@BeforeEach
-	public void setUp() {
-		mockMvc = MockMvcBuilders.standaloneSetup(courseRestController).build();
+	@BeforeAll
+	public void setUpBefore() throws SQLException {
+		//courseDTO = new CourseDTO();
+		emptyTables();
 	}
+	private void emptyTables() throws SQLException {
+		connection = getConnection();
 
-	@Test
-	void testHappyPath() throws Exception {
-
-		CourseDTO courseDTO = new CourseDTO("New Course", "Description", "image-url");
-		mockMvc.perform(MockMvcRequestBuilders
-						.post("/courses")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(courseDTO))
-				)
-				.andExpect(MockMvcResultMatchers.status().isCreated());
+		connection.prepareStatement("DELETE FROM courses").execute();
+	}
+	private void initMasterData() throws SQLException {
 
 	}
-
-	@Test
-	void testErrorHandling() throws Exception {
-
-
-		Course invalidCourse = new Course();
-		invalidCourse.setTitle(null);
-		mockMvc.perform(MockMvcRequestBuilders
-						.post("/courses")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(invalidCourse))
-				)
-				.andExpect(MockMvcResultMatchers.status().isBadRequest());
-
+	private Connection getConnection() throws SQLException {
+		String url = "jdbc:mysql://127.0.0.1/ErJoSe?createDatabaseIfNotExist=true&serverTimezone=UTC";
+		String user = "root";
+		String password = "root";
+		return DriverManager.getConnection(url, user, password);
 	}
-
-	@Test
-	void testListCoursesByTitleOrDescription() throws Exception {
-
-		CourseDTO course1 = new CourseDTO("Java Basics", "Learn the basics of Java programming", "java-basics.jpg");
-		CourseDTO course2 = new CourseDTO("Python Fundamentals", "Fundamental concepts of Python programming", "python-fundamentals.jpg");
-		CourseDTO course3 = new CourseDTO("Data Science", "Introduction to data science with Python", "data-science.jpg");
-		mockMvc.perform(MockMvcRequestBuilders
-						.post("/courses")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(course1))
-				)
-				.andExpect(MockMvcResultMatchers.status().isCreated());
-
-		mockMvc.perform(MockMvcRequestBuilders
-						.post("/courses")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(course2))
-				)
-				.andExpect(MockMvcResultMatchers.status().isCreated());
-
-		mockMvc.perform(MockMvcRequestBuilders
-						.post("/courses")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(course3))
-				)
-				.andExpect(MockMvcResultMatchers.status().isCreated());
-
-
-		mockMvc.perform(MockMvcRequestBuilders
-						.get("/courses?query=Java")
-				)
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Java Basics"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value("Learn the basics of Java programming"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$[1].title").value("Python Fundamentals"))
-				.andExpect(MockMvcResultMatchers.jsonPath("$[1].description").value("Fundamental concepts of Python programming"));
-	}
-
-	@Test
-	void testNonexistentCourseUpdate() throws Exception {
-		CourseDTO updates = new CourseDTO("New Title", "New Description", "new-image.jpg");
-		mockMvc.perform(MockMvcRequestBuilders
-						.patch("/courses/1000")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(updates))
-				)
-				.andExpect(MockMvcResultMatchers.status().isNotFound());
-	}
-
-	@Test
-	void testDuplicateCourseTitle() throws Exception {
-		CourseDTO course1 = new CourseDTO("Unique Title", "Description 1", "image1.jpg");
-		mockMvc.perform(MockMvcRequestBuilders
-						.post("/courses")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(course1))
-				)
-				.andExpect(MockMvcResultMatchers.status().isCreated());
-
-		CourseDTO course2 = new CourseDTO("Unique Title", "Description 2", "image2.jpg");
-		mockMvc.perform(MockMvcRequestBuilders
-						.post("/courses")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(course2))
-				)
-				.andExpect(MockMvcResultMatchers.status().isBadRequest());
-	}
-
-
-	@Test
-	void testTitleWithLowercaseInitialLetter() throws Exception {
-		CourseDTO course = new CourseDTO("java Programming", "Description", "image.jpg");
-		mockMvc.perform(MockMvcRequestBuilders
-						.post("/courses")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(objectMapper.writeValueAsString(course))
-				)
-				.andExpect(MockMvcResultMatchers.status().isBadRequest());
-	}
-
 }

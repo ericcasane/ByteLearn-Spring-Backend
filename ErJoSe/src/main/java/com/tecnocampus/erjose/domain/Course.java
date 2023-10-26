@@ -28,6 +28,7 @@ public class Course {
     private boolean available;
 
     @ManyToOne
+    @JoinColumn(name = "category_id", nullable = true)
     private Category category;
 
     @ManyToOne

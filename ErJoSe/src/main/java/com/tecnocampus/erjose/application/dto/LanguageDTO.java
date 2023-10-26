@@ -1,5 +1,12 @@
 package com.tecnocampus.erjose.application.dto;
 
-public record LanguageDTO (String name, String locale) {
+import com.tecnocampus.erjose.domain.Language;
 
+public record LanguageDTO (String name, String locale, boolean defaultLanguage) {
+    public LanguageDTO() {
+        this(null, null,false);
+    }
+    public LanguageDTO (Language language) {
+        this(language.getName(), language.getLocale(), language.isDefaultLanguage());
+    }
 }
