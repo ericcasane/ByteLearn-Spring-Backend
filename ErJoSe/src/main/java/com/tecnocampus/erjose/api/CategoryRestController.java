@@ -10,14 +10,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Category Controller", description = "Controller to manage categories")
+@Tag(name = "2. Category Controller", description = "Controller to manage categories")
 @Order(2)
 @RestController
 @RequestMapping("/categories")
 public class CategoryRestController {
     private final CategoryService categoryService;
 
-    public CategoryRestController(CategoryService categoryService) { this.categoryService = categoryService; }
+    public CategoryRestController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     @GetMapping
     @Operation(summary = "Gets all categories")

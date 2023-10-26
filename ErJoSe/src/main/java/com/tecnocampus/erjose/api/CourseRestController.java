@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@Tag(name = "Course Controller", description = "Controller to manage courses")
+@Tag(name = "1. Course Controller", description = "Controller to manage courses")
 @Order(1)
 @RestController
 @RequestMapping("/courses")
@@ -30,7 +30,7 @@ public class CourseRestController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all available courses or search by title or description")
+    @Operation(summary = "Get courses", description = "Returns all courses available or filtered by search, language or category")
     public List<?> getCourses(@RequestParam(required = false) String search,
                               @RequestParam(required = false) int language,
                               @RequestParam(required = false) int category) {
@@ -47,13 +47,13 @@ public class CourseRestController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new course")
+    @Operation(summary = "Create a new course", description = "Returns the created course")
     public CourseDTO createCourse(@Valid @RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }
     
     @PatchMapping("/{courseId}")
-    @Operation(summary = "Update course title, description or image url")
+    @Operation(summary = "Update course title, description or image url", description = "The course id must exist")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Course updated"),
             @ApiResponse(responseCode = "400", description = "Invalid course id"),
@@ -68,13 +68,13 @@ public class CourseRestController {
     }
 
     @PatchMapping("/{courseId}/price")
-    @Operation(summary = "Update course price")
+    @Operation(summary = "Update course price", description = "The course id must exist")
     public CourseDTO updateCoursePrice(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updatePrice(courseId, courseDTO.currentPrice());
     }
 
     @PatchMapping("/{courseId}/available")
-    @Operation(summary = "Update course available")
+    @Operation(summary = "Update course available", description = "The course id must exist")
     public CourseDTO updateCourseAvailable(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updateAvailable(courseId, courseDTO.available());
     }

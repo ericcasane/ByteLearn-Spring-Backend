@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Language Controller", description = "Controller to manage languages")
+@Tag(name = "3. Language Controller", description = "Controller to manage languages")
 @Order(3)
 @RestController
 @RequestMapping("/languages")
 public class LanguageRestController {
     private final LanguageService languageService;
-    public LanguageRestController(LanguageService languageService) { this.languageService = languageService; }
+    public LanguageRestController(LanguageService languageService) {
+        this.languageService = languageService;
+    }
 
     @GetMapping
     @Operation(summary = "Get all languages")
