@@ -4,7 +4,9 @@ import com.tecnocampus.erjose.application.dto.CategoryDTO;
 import jakarta.persistence.*;
 import jdk.jfr.Enabled;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -15,8 +17,8 @@ public class Category {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
-    private List<Course> courseList;
+    @ManyToMany(mappedBy = "categories")
+    private Set<Course> courseList;
 
     public Category() {
 
@@ -25,11 +27,16 @@ public class Category {
     public Category(CategoryDTO categoryDTO) {
         this.name = categoryDTO.name();
         this.description = categoryDTO.description();
+        this.courseList = new HashSet<>();
     }
 
     public Category(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() { return name; }

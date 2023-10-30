@@ -17,6 +17,7 @@ public class CategoryService {
     public List<CategoryDTO> getCategories() {
         return categoryRepository.findAll().stream().map(CategoryDTO::new).toList();
     }
+
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
         Category category = new Category(categoryDTO);
         categoryRepository.save(category);

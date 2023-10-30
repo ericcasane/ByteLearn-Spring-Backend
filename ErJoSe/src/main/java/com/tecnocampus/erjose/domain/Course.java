@@ -9,7 +9,11 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "courses")
@@ -27,9 +31,12 @@ public class Course {
     private BigDecimal currentPrice;
     private boolean available;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = true)
-    private Category category;
+    @ManyToMany
+    @JoinTable(
+            name = "course_categories",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
 
     @ManyToOne
     private Language language;
@@ -46,6 +53,7 @@ public class Course {
         this.lastUpdateDate = LocalDate.now();
         this.currentPrice = new BigDecimal("0.0");
         this.available = false;
+        this.categories = new HashSet<>();
     }
 
     public void setTitle(String title) {
@@ -102,5 +110,11 @@ public class Course {
 
     public boolean isAvailable() {
         return available;
+    }
+
+    public Set<Category> getCategories() { return categories; }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
     }
 }

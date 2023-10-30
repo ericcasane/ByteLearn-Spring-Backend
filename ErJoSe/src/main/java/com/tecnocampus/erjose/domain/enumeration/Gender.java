@@ -1,4 +1,4 @@
-package com.tecnocampus.erjose.domain;
+package com.tecnocampus.erjose.domain.enumeration;
 
 public enum Gender {
     MALE,

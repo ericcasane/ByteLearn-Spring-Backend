@@ -1,6 +1,6 @@
 -- Creación de la base de datos con datos de prueba
 -- Idiomas de los cursos
-INSERT INTO languages (id, name, locale, default_language)
+/*INSERT INTO languages (id, name, locale, default_language)
 VALUES
     ('1', 'English', 'en_US', true),
     ('2', 'Spanish', 'es_ES', false),
@@ -82,7 +82,7 @@ VALUES
     ('e40edb92-17b3-4f3a-9758-9df565aa04f9', 'Cross-Platform Game Development with Phaser', 'Create fun and addictive games that work on different platforms using Phaser.', current_date, current_date, '/images/phaser_game.jpg', 64.99, true, '5', '1');
 
 -- Usuarios
-INSERT INTO users (id, name, surname, email, gender, username)
+INSERT INTO users (id, first_name, last_name, email, gender, username)
 VALUES
     ('0a8df84e-7e91-4509-9c02-e6d8b29f93b5', 'Mia', 'Khalifa Gomez', 'mia.perez@outlook.com', 'FEMALE', 'miamia'),
     ('c40edb92-17b3-4f3a-9758-9df565aa04f1', 'John', 'Doe William', 'john.doe@gmail.com', 'MALE', 'johnny'),
@@ -98,5 +98,5 @@ VALUES
     ('30a8c656-18f7-4536-8b9f-2ef3a03f587e', 'Ethan', 'Hernandez Martin', 'ethan.hernandez@yahoo.com', 'MALE', 'ethanh'),
     ('63c62e33-4d01-4b93-b8e7-d799e241ea6d', 'Isabella', 'Lopez Sanchez', 'isabella.lopez@hotmail.com', 'OTHER', 'isabellal'),
     ('f32a4a2b-c648-49a7-b108-280034b4d063', 'Alexander', 'Gonzalez Perez', 'alexander.gonzalez@gmail.com', 'MALE', 'alexperez'),
-    ('0710d6ab-0720-4b66-8402-f27e0daec5bb', 'Daniel', 'Sanchez Romero', 'daniel.sanchez@aol.com', 'MALE', 'danrom');
+    ('0710d6ab-0720-4b66-8402-f27e0daec5bb', 'Daniel', 'Sanchez Romero', 'daniel.sanchez@aol.com', 'MALE', 'danrom');*/
 

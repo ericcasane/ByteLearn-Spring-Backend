@@ -30,19 +30,20 @@ public class CourseRestController {
     }
 
     @GetMapping
-    @Operation(summary = "Get courses", description = "Returns all courses available or filtered by search, language or category")
+    @Operation(summary = "Get courses", description = "Returns all courses available or filtered by search or language and/or category")
     public List<?> getCourses(@RequestParam(required = false) String search,
                               @RequestParam(required = false) int language,
                               @RequestParam(required = false) int category) {
         if (search != null) //Search by title or description
             return courseService.getCoursesByTitleOrDescription(search);
-        if (language > 0 || category > 0)
+        //TODO
+        /*if (language > 0 || category > 0)
             if (language > 0 && category > 0) //Search by language and category
                 return courseService.getCoursesByCategoryAndLanguage(category, language);
             else if (category > 0) //Search by category
                 return courseService.getCoursesByCategory(category);
             else //Search by language
-                return courseService.getCoursesByLanguage(language);
+                return courseService.getCoursesByLanguage(language);*/
         return courseService.getCoursesAvailable();
     }
 
@@ -78,6 +79,13 @@ public class CourseRestController {
     public CourseDTO updateCourseAvailable(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updateAvailable(courseId, courseDTO.available());
     }
+
+    @PostMapping("/{courseId}/categories")
+    @Operation(summary = "Add categories ids to course", description = "The course id must exist")
+    public void addCategoryToCourse(@PathVariable String courseId,@RequestParam List<Long> categoryIds) {
+        //courseService.addCategoryToCourse(courseId, categoryIds);
+    }
+
 
 }
 
