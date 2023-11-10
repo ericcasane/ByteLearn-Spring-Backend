@@ -40,6 +40,8 @@ public class Course {
 
     @ManyToOne
     private Language language;
+    @ManyToMany
+    private List<Order> orders;
 
     public Course() {
 
@@ -116,5 +118,8 @@ public class Course {
 
     public void addCategory(Category category) {
         this.categories.add(category);
+    }
+    public void addCategories(List<Category> categories){
+        this.categories.addAll(categories);
     }
 }

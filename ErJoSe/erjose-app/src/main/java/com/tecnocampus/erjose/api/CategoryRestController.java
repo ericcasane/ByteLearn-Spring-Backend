@@ -3,10 +3,8 @@ package com.tecnocampus.erjose.api;
 import com.tecnocampus.erjose.application.CategoryService;
 import com.tecnocampus.erjose.application.dto.CategoryDTO;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import org.springframework.core.annotation.Order;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +28,6 @@ public class CategoryRestController {
     @PostMapping
     @Operation(summary = "Create a new category", description = "Returns the created category")
     public CategoryDTO createCategory(@RequestBody CategoryDTO categoryDTO) {
-        System.out.println("CategoryDTO: " + categoryDTO.name());
         return categoryService.createCategory(categoryDTO);
     }
 

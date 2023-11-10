@@ -1,6 +1,7 @@
 package com.tecnocampus.erjose.api;
 
 import com.tecnocampus.erjose.application.CourseService;
+import com.tecnocampus.erjose.application.dto.CategoryDTO;
 import com.tecnocampus.erjose.application.dto.CourseDTO;
 import com.tecnocampus.erjose.domain.Category;
 import com.tecnocampus.erjose.domain.Language;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +32,7 @@ public class CourseRestController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Get courses", description = "Returns all courses available or filtered by search or language and/or category")
     public List<?> getCourses(Optional<String> search, @RequestParam Optional<List<Long>> categories, @RequestParam Optional<List<Long>> languages) {
         if (search.isPresent()) //Search by title or description
@@ -54,7 +57,6 @@ public class CourseRestController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content =
                     { @Content(mediaType = "application/json", schema =
                       @Schema(implementation = ErrorResponse.class)) })
-
     })
     public CourseDTO updateCourse(@PathVariable String courseId, @RequestBody Map<String, String> updates) {
         return courseService.updateCourseTitleDescrOrImageURL(courseId, updates);
@@ -67,18 +69,17 @@ public class CourseRestController {
     }
 
     @PatchMapping("/{courseId}/available")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update course available", description = "The course id must exist")
     public CourseDTO updateCourseAvailable(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updateAvailable(courseId, courseDTO.available());
     }
 
-    @PostMapping("/{courseId}/categories")
+    @PutMapping("/{courseId}/categories")
     @Operation(summary = "Add categories ids to course", description = "The course id must exist")
-    public void addCategoryToCourse(@PathVariable String courseId,@RequestParam List<Long> categoryIds) {
-        //courseService.addCategoryToCourse(courseId, categoryIds);
+    public void addCategoryToCourse(@PathVariable String courseId, @RequestParam List<Long> categoryIds) {
+        courseService.addCategoriesToCourse(courseId, categoryIds);
     }
-
-
 }
 
 

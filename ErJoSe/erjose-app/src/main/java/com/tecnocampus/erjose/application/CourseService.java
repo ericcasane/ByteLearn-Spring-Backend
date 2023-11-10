@@ -96,12 +96,12 @@ public class CourseService {
     }*/
 
     @Transactional
-    public CourseDTO addCategoryToCourse(String courseId, CategoryDTO categoryDTO) {
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
-        Category category = categoryRepository.findById(categoryDTO.id()).orElseThrow(() -> new CourseNotFoundException(courseId));
-        course.addCategory(category);
-        return new CourseDTO(course);
+    public void addCategoriesToCourse(String courseId, List<Long> categoryIds) {
+        Course course = courseRepository.findById(courseId).orElseThrow(); //Afegir tractament excepció //TODO
+        List<Category> categories = categoryRepository.findAllById(categoryIds);
+        course.addCategories(categories);
     }
+
     /*@Transactional
     public void addCategoryToCourse(String courseId, List<Long> categoryIds) {
         Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
