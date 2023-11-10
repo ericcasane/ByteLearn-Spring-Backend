@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -24,8 +26,14 @@ public class User {
     private Gender gender;
     @Column(unique = true)
     private String username;
+    @OneToMany
+    private List<Order> orders;
 
     public User() {
 
+    }
+
+    public String getId() {
+        return id;
     }
 }
