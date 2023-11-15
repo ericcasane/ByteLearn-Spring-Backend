@@ -18,8 +18,8 @@ public class OrderService {
 
     public OrderDTO createOrder(OrderDTO orderDTO){
         Order order = new Order(orderDTO);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Principal principal = securityContext.getAuthentication();
+        /*SecurityContext securityContext = SecurityContextHolder.getContext();
+        Principal principal = securityContext.getAuthentication();*/
 
         orderRepository.save(order);
         return new OrderDTO(order);

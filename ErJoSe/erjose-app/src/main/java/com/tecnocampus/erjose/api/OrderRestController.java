@@ -2,13 +2,12 @@ package com.tecnocampus.erjose.api;
 
 import com.tecnocampus.erjose.application.OrderService;
 import com.tecnocampus.erjose.application.dto.OrderDTO;
-import com.tecnocampus.erjose.domain.UserSecurity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
+@Tag(name = "Order Controller", description = "Controller to manage orders")
 @RestController
 @RequestMapping("/orders")
 public class OrderRestController {
@@ -25,7 +24,7 @@ public class OrderRestController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public OrderDTO getOrder() {
+    public OrderDTO getOrders() {
         return orderService.createOrder(new OrderDTO(null, null));
     }
 

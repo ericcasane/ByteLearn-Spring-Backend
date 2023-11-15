@@ -1,20 +1,19 @@
-package com.tecnocampus.erjose.security.config;
+package com.tecnocampus.erjose.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tecnocampus.erjose.domain.UserSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class UserSecurityDetails implements UserDetails {
+public class UserDetails implements org.springframework.security.core.userdetails.UserDetails {
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private String id;
 
     private String username;
 
@@ -25,8 +24,8 @@ public class UserSecurityDetails implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserSecurityDetails(Long id, String username, String email, String password,
-                          Collection<? extends GrantedAuthority> authorities) {
+    public UserDetails(String id, String username, String email, String password,
+                       Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -34,14 +33,18 @@ public class UserSecurityDetails implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserSecurityDetails build(UserSecurity user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-                .collect(Collectors.toList());
+    public static UserDetails build(User user) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (Role role: user.getRoles()) {
+            authorities.add(new SimpleGrantedAuthority(role.getName().name()));
+            role.getPrivileges().stream()
+                    .map(p -> new SimpleGrantedAuthority(p.getName()))
+                    .forEach(authorities::add);
+        }
 
-        System.out.println("user Authorities: " + user.getEmail() + " autho: "  + authorities);
+        System.out.println("User Authorities: " + user.getEmail() + " autho: "  + authorities);
 
-        return new UserSecurityDetails(
+        return new UserDetails(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
@@ -54,7 +57,7 @@ public class UserSecurityDetails implements UserDetails {
         return authorities;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -98,7 +101,7 @@ public class UserSecurityDetails implements UserDetails {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        UserSecurityDetails user = (UserSecurityDetails) o;
+        UserDetails user = (UserDetails) o;
         return Objects.equals(id, user.id);
     }
 }

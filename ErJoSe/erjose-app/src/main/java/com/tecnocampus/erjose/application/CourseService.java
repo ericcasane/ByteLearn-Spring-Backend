@@ -1,15 +1,15 @@
 package com.tecnocampus.erjose.application;
 
-import com.tecnocampus.erjose.application.dto.CategoryDTO;
-import com.tecnocampus.erjose.application.dto.CourseDTO;
-import com.tecnocampus.erjose.application.dto.SearchCourseDTO;
+import com.tecnocampus.erjose.application.dto.course.CourseDTO;
+import com.tecnocampus.erjose.application.dto.course.SearchCourseDTO;
 import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
 import com.tecnocampus.erjose.application.exception.CourseTitleDuplicatedException;
 import com.tecnocampus.erjose.domain.Category;
 import com.tecnocampus.erjose.domain.Course;
-import com.tecnocampus.erjose.domain.Language;
 import com.tecnocampus.erjose.persistence.CategoryRepository;
 import com.tecnocampus.erjose.persistence.CourseRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +23,14 @@ import java.util.stream.Collectors;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final CategoryRepository categoryRepository;
+    private final UserDetailsService userDetailsService;
+
 
     public CourseService(CourseRepository courseRepository,
-                         CategoryRepository categoryRepository) {
+                         CategoryRepository categoryRepository, UserDetailsService userDetailsService) {
         this.courseRepository = courseRepository;
         this.categoryRepository = categoryRepository;
+        this.userDetailsService = userDetailsService;
     }
 
     public CourseDTO createCourse(CourseDTO courseDTO) {
@@ -38,8 +41,11 @@ public class CourseService {
         return new CourseDTO(course);
     }
 
-    public List<CourseDTO> getCoursesAvailable() {
-        List<Course> courses = courseRepository.findByAvailableOrderByTitle(true);
+    public List<CourseDTO> getCourses() {
+        Boolean available = true;
+        if (userDetailsService.hasPrivilege("READ_ALL_COURSES"))
+            available = null;
+        List<Course> courses = courseRepository.findByAvailableOrderByTitle(available);
         return courses.stream().map(CourseDTO::new).collect(Collectors.toList());
     }
 
@@ -49,7 +55,6 @@ public class CourseService {
         if (updates.containsKey("title")) course.setTitle(updates.get("title"));
         if (updates.containsKey("description")) course.setDescription(updates.get("description"));
         if (updates.containsKey("imageUrl")) course.setImageURL(updates.get("imageUrl"));
-        course.updateDate();
         return new CourseDTO(course);
     }
 
@@ -57,7 +62,6 @@ public class CourseService {
     public CourseDTO updatePrice(String id, BigDecimal currentPrice) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         course.setCurrentPrice(currentPrice);
-        course.updateDate();
         return new CourseDTO(course);
     }
 
@@ -65,35 +69,28 @@ public class CourseService {
     public CourseDTO updateAvailable(String id, boolean available) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         course.setAvailable(available);
-        course.updateDate();
         return new CourseDTO(course);
     }
 
     public List<SearchCourseDTO> getCoursesByTitleOrDescription(Optional<String> search) {
-        return courseRepository.findByTitleOrDescription(search.get());
+        Boolean available = true;
+        if (userDetailsService.hasPrivilege("READ_ALL_COURSES"))
+            available = null;
+        return courseRepository.findByTitleOrDescription(search.get(), available);
     }
 
     public List<SearchCourseDTO> getCoursesByLanguageOrCategory(Optional<List<Long>> categories, Optional<List<Long>> languages) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Boolean available = true;
+        if (userDetailsService.hasPrivilege("READ_ALL_COURSES"))
+            available = null;
         if (categories.isPresent() && languages.isPresent())
-            return courseRepository.getCoursesByLanguageAndCategory(categories.get(), languages.get());
+            return courseRepository.getCoursesByLanguageAndCategory(categories.get(), languages.get(), available);
         if (categories.isPresent())
-            return courseRepository.getCoursesByCategory(categories.get());
+            return courseRepository.getCoursesByCategory(categories.get(), available);
         else
-           return courseRepository.getCoursesByLanguage(languages.get());
+           return courseRepository.getCoursesByLanguage(languages.get(), available);
     }
-
-    //TODO
-    /*public List<SearchCourseDTO> getCoursesByCategoryAndLanguage(long category, long language) {
-        //return courseRepository.findByCategoryIdAndLanguageId(category, language);
-    }
-
-    public List<SearchCourseDTO> getCoursesByLanguage(long language) {
-        //return courseRepository.findByLanguageId(language);
-    }
-
-    public List<SearchCourseDTO> getCoursesByCategory(long category) {
-        return courseRepository.findByCategoryId(category);
-    }*/
 
     @Transactional
     public void addCategoriesToCourse(String courseId, List<Long> categoryIds) {

@@ -5,17 +5,17 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "permissions")
-public class Permission {
+@Table(name = "privileges")
+public class Privilege {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String description;
-    @ManyToMany(mappedBy = "permissions", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "privileges", fetch = FetchType.EAGER)
     private List<Role> roles;
 
-    public Permission(){
+    public Privilege(){
 
     }
 

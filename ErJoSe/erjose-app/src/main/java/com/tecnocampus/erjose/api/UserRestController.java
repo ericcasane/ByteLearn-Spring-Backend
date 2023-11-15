@@ -1,11 +1,13 @@
 package com.tecnocampus.erjose.api;
 
 import com.tecnocampus.erjose.application.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "User Controller", description = "Controller to manage users")
 @RestController
 public class UserRestController {
     private final UserService userService;
@@ -14,7 +16,7 @@ public class UserRestController {
     }
     @PutMapping("/users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void upgradeUserToTeacher(@PathVariable String id) {
-        userService.upgradeUserToTeacher(id);
+    public void upgradeUserToTeacher(@PathVariable String userId) {
+        userService.upgradeUserToTeacher(userId);
     }
 }

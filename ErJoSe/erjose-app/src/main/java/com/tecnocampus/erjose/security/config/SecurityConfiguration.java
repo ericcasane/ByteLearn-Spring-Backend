@@ -11,12 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static com.tecnocampus.erjose.domain.enumeration.ERole.ADMIN;
-import static com.tecnocampus.erjose.domain.enumeration.ERole.TEACHER;
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
-import static org.springframework.http.HttpMethod.*;
+import static com.tecnocampus.erjose.domain.enumeration.ERole.ROLE_ADMIN;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -32,8 +28,7 @@ public class SecurityConfiguration {
             "/webjars/**",
             "/swagger-ui.html",
             "/v3/api-docs/**",
-            "/categories/**",
-            "/courses/**",
+            "/**",
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -57,7 +52,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                /*.requestMatchers(GET,"courses/**").hasAnyAuthority(TEACHER.name(), ADMIN.name())
+                                .requestMatchers("courses/**").hasAnyAuthority(ROLE_ADMIN.name())
                                 /*.requestMatchers("/quotes/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/profiles/me/**").hasRole("USER")
                                 .requestMatchers(POST, "/profiles").hasRole("ADMIN")

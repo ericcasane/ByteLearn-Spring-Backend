@@ -1,19 +1,19 @@
 package com.tecnocampus.erjose.domain;
 
-import com.tecnocampus.erjose.application.dto.CourseDTO;
+import com.tecnocampus.erjose.application.dto.course.CourseDTO;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "courses")
@@ -21,14 +21,25 @@ public class Course {
     @Id
     @UuidGenerator
     private String id;
+
+    @NotBlank
     @Pattern(regexp = "^[A-Z].*", message = "Title must begin with a capital letter")
     private String title;
+
     private String description;
-    private LocalDate creationDate;
-    private LocalDate lastUpdateDate;
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
+
     private String imageUrl;
+
     @DecimalMin(value = "0.0", inclusive = true, message = "Price must be greater than 0")
     private BigDecimal currentPrice;
+
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean available;
 
     @ManyToMany(fetch=FetchType.EAGER)
@@ -40,8 +51,12 @@ public class Course {
 
     @ManyToOne
     private Language language;
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "purchasedCourses")
     private List<Order> orders;
+
+    @OneToMany
+    private List<Lesson> lessons;
 
     public Course() {
 
@@ -51,8 +66,6 @@ public class Course {
         this.title = courseDTO.title();
         this.description = courseDTO.description();
         this.imageUrl = courseDTO.imageUrl();
-        this.creationDate = LocalDate.now();
-        this.lastUpdateDate = LocalDate.now();
         this.currentPrice = new BigDecimal("0.0");
         this.available = false;
         this.categories = new HashSet<>();
@@ -78,10 +91,6 @@ public class Course {
         this.available = available;
     }
 
-    public void updateDate() {
-        this.lastUpdateDate = LocalDate.now();
-    }
-
     public String getId() {
         return id;
     }
@@ -94,13 +103,9 @@ public class Course {
         return description;
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
+    public Instant getCreatedAt() { return createdAt; }
 
-    public LocalDate getLastUpdateDate() {
-        return lastUpdateDate;
-    }
+    public Instant getUpdatedAt() { return updatedAt; }
 
     public String getImageUrl() {
         return imageUrl;

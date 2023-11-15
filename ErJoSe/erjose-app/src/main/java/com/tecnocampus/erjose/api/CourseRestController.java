@@ -1,18 +1,15 @@
 package com.tecnocampus.erjose.api;
 
 import com.tecnocampus.erjose.application.CourseService;
-import com.tecnocampus.erjose.application.dto.CategoryDTO;
-import com.tecnocampus.erjose.application.dto.CourseDTO;
-import com.tecnocampus.erjose.domain.Category;
-import com.tecnocampus.erjose.domain.Language;
+import com.tecnocampus.erjose.application.dto.course.CourseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Tag(name = "1. Course Controller", description = "Controller to manage courses")
+@Tag(name = "2. Course Controller", description = "Controller to manage courses")
 @RestController
 @RequestMapping("/courses")
+//@SecurityRequirement(name = "BearerAuth")
 public class CourseRestController {
     private final CourseService courseService;
 
@@ -32,23 +30,24 @@ public class CourseRestController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Get courses", description = "Returns all courses available or filtered by search or language and/or category")
     public List<?> getCourses(Optional<String> search, @RequestParam Optional<List<Long>> categories, @RequestParam Optional<List<Long>> languages) {
         if (search.isPresent()) //Search by title or description
             return courseService.getCoursesByTitleOrDescription(search);
         if (!categories.isEmpty() || !languages.isEmpty()) //Search by language or category
             return courseService.getCoursesByLanguageOrCategory(categories, languages);
-        return courseService.getCoursesAvailable();
+        return courseService.getCourses();
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
     @Operation(summary = "Create a new course", description = "Returns the created course")
     public CourseDTO createCourse(@Valid @RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }
     
     @PatchMapping("/{courseId}")
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
     @Operation(summary = "Update course title, description or image url", description = "The course id must exist")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Course updated"),
@@ -63,6 +62,7 @@ public class CourseRestController {
     }
 
     @PatchMapping("/{courseId}/price")
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
     @Operation(summary = "Update course price", description = "The course id must exist")
     public CourseDTO updateCoursePrice(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updatePrice(courseId, courseDTO.currentPrice());
@@ -76,6 +76,7 @@ public class CourseRestController {
     }
 
     @PutMapping("/{courseId}/categories")
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
     @Operation(summary = "Add categories ids to course", description = "The course id must exist")
     public void addCategoryToCourse(@PathVariable String courseId, @RequestParam List<Long> categoryIds) {
         courseService.addCategoriesToCourse(courseId, categoryIds);

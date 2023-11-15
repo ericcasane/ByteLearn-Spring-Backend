@@ -1,5 +1,6 @@
 package com.tecnocampus.erjose.security.config;
 
+import com.tecnocampus.erjose.application.UserDetailsService;
 import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,14 +18,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final UserSecurityDetailsService userSecurityDetailsService;
+    private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
 
     @Value("${application.security.jwt.token-prefix}")
     private String tokenPrefix;
 
-    public JwtAuthenticationFilter(UserSecurityDetailsService userSecurityDetailsService, JwtService jwtService) {
-        this.userSecurityDetailsService = userSecurityDetailsService;
+    public JwtAuthenticationFilter(UserDetailsService userDetailsService, JwtService jwtService) {
+        this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
     }
 
@@ -51,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         username = jwtService.extractUsername(jwt);
         System.out.println("-----------------------username from token: " + username);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userSecurityDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

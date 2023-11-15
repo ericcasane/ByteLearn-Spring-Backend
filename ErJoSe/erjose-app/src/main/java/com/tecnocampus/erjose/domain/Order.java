@@ -3,8 +3,11 @@ package com.tecnocampus.erjose.domain;
 import com.tecnocampus.erjose.application.dto.OrderDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,12 +17,19 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @ManyToOne
     private User userId;
+
     @DecimalMin(value = "0.0", inclusive = true, message = "Price must be greater than 0")
     private BigDecimal total;
-    private LocalDate creationDate;
-    private LocalDate modifiedDate;
+
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @UpdateTimestamp
+    private Instant updatedAt;
+
     @ManyToMany
     @JoinTable(
             name = "order_courses",
@@ -42,8 +52,6 @@ public class Order {
     public Order(OrderDTO orderDTO){
         this.total = orderDTO.total();
         this.purchasedCourses = orderDTO.purchasedCourses();
-        this.creationDate = LocalDate.now();
-        this.modifiedDate = null;
     }
 
     public BigDecimal getTotal() {
@@ -54,22 +62,8 @@ public class Order {
         this.total = total;
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public LocalDate getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(LocalDate modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
+    
     public List<Course> getPurchasedCourses() {
         return purchasedCourses;
     }

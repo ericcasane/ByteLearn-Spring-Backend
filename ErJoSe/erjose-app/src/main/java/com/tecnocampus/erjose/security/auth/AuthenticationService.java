@@ -1,7 +1,7 @@
 package com.tecnocampus.erjose.security.auth;
 
 import com.tecnocampus.erjose.security.config.JwtService;
-import com.tecnocampus.erjose.security.config.UserSecurityDetailsService;
+import com.tecnocampus.erjose.application.UserDetailsService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserSecurityDetailsService userSecurityDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    public AuthenticationService(JwtService jwtService, AuthenticationManager authenticationManager, UserSecurityDetailsService userSecurityDetailsService) {
+    public AuthenticationService(JwtService jwtService, AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
-        this.userSecurityDetailsService = userSecurityDetailsService;
+        this.userDetailsService = userDetailsService;
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -26,7 +26,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        UserDetails userDetails = this.userSecurityDetailsService.loadUserByUsername(request.getUsername());
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.getUsername());
         var jwtToken = jwtService.generateToken(userDetails);
         AuthenticationResponse response = new AuthenticationResponse();
         response.setAccessToken(jwtToken);

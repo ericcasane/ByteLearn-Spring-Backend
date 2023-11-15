@@ -1,6 +1,7 @@
-package com.tecnocampus.erjose.application.dto;
+package com.tecnocampus.erjose.application.dto.course;
 
 
+import com.tecnocampus.erjose.application.dto.CategoryDetailsDTO;
 import com.tecnocampus.erjose.domain.Category;
 import com.tecnocampus.erjose.domain.Course;
 import jakarta.validation.constraints.DecimalMin;
@@ -8,6 +9,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,12 +18,12 @@ public record CourseDTO (
         String id,
         String title,
         String description,
-        LocalDate publicationDate,
-        LocalDate lastUpdateDate,
+        Instant createdAt,
+        Instant updatedAt,
         String imageUrl,
         BigDecimal currentPrice,
         boolean available,
-        Set<Long> categories
+        Set<CategoryDetailsDTO> categories
 ) {
 
     public CourseDTO(Course course) {
@@ -29,28 +31,14 @@ public record CourseDTO (
             course.getId(),
             course.getTitle(),
             course.getDescription(),
-            course.getCreationDate(),
-            course.getLastUpdateDate(),
+            course.getCreatedAt(),
+            course.getUpdatedAt(),
             course.getImageUrl(),
             course.getCurrentPrice(),
             course.isAvailable(),
             course.getCategories().stream()
-                    .map(Category::getId)
+                    .map(category -> new CategoryDetailsDTO(category.getId(), category.getName()))
                     .collect(Collectors.toSet())
-        );
-    }
-
-    public CourseDTO(String title, String description, String imageUrl) {
-        this(
-            null,
-            title,
-            description,
-            LocalDate.now(),
-            LocalDate.now(),
-            imageUrl,
-            null,
-            false,
-            null
         );
     }
 }

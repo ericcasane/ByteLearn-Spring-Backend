@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//@Tag(name = "4. Authentication Controller", description = "Controller to manage authentication")
+@Tag(name = "1. Authentication Controller", description = "Controller to manage authentication")
 @RestController
 public class AuthenticationController {
     private final AuthenticationService service;

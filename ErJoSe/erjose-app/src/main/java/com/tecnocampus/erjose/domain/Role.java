@@ -15,11 +15,11 @@ public class Role {
     @Column(length = 20)
     private ERole name;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable( name = "role_permission",
+    @JoinTable( name = "role_privileges",
             joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "rule_id")
+            inverseJoinColumns = @JoinColumn(name = "privilege_id")
     )
-    private Set<Permission> permissions;
+    private Set<Privilege> privileges;
 
     public Role() {
 
@@ -45,7 +45,7 @@ public class Role {
         this.name = name;
     }
 
-    public Set<Permission> getPermissions() {
-        return permissions;
+    public Set<Privilege> getPrivileges() {
+        return privileges;
     }
 }
