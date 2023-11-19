@@ -12,8 +12,14 @@ public class Lesson {
     @Id
     @UuidGenerator
     private String id;
+
     private String title;
+
     private String description;
+
+    private Double duration;
+
+    private String videoUrl;
 
     @ManyToOne
     private Course courses;
@@ -27,6 +33,8 @@ public class Lesson {
     public Lesson(LessonDTO lessonDTO) {
         this.title = lessonDTO.title();
         this.description = lessonDTO.description();
+        this.duration = lessonDTO.duration();
+        this.videoUrl = lessonDTO.videoUrl();
     }
 
     public String getId() {
@@ -47,5 +55,21 @@ public class Lesson {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Double getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Double duration) {
+        this.duration = duration;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 }
