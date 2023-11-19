@@ -142,7 +142,46 @@ INSERT INTO roles(name) VALUES
 -- Privileges
 INSERT INTO privileges(id, name, description)
 VALUES
-    (1, 'READ_ALL_COURSES', '');
+    (1, 'READ_ALL_COURSES', ''),
+    (2, 'CREATE_COURSES', ''),
+    (3, 'UPDATE_COURSES', ''),
+    (4, 'DELETE_COURSES', ''),
+    (5, 'READ_ALL_USERS', ''),
+    (6, 'CREATE_USERS', ''),
+    (7, 'UPDATE_USERS', ''),
+    (8, 'DELETE_USERS', ''),
+    (9, 'READ_ALL_CATEGORIES', ''),
+    (10, 'CREATE_CATEGORIES', ''),
+    (11, 'UPDATE_CATEGORIES', ''),
+    (12, 'DELETE_CATEGORIES', ''),
+    (13, 'READ_ALL_ROLES', ''),
+    (14, 'CREATE_ROLES', ''),
+    (15, 'UPDATE_ROLES', ''),
+    (16, 'DELETE_ROLES', ''),
+    (17, 'READ_ALL_PRIVILEGES', ''),
+    (18, 'CREATE_PRIVILEGES', ''),
+    (19, 'UPDATE_PRIVILEGES', ''),
+    (20, 'DELETE_PRIVILEGES', ''),
+    (21, 'READ_ALL_COURSE_CATEGORIES', ''),
+    (22, 'CREATE_COURSE_CATEGORIES', ''),
+    (23, 'UPDATE_COURSE_CATEGORIES', ''),
+    (24, 'DELETE_COURSE_CATEGORIES', ''),
+    (25, 'READ_ALL_ROLE_PRIVILEGES', ''),
+    (26, 'CREATE_ROLE_PRIVILEGES', ''),
+    (27, 'UPDATE_ROLE_PRIVILEGES', ''),
+    (28, 'DELETE_ROLE_PRIVILEGES', ''),
+    (29, 'READ_ALL_USER_ROLES', ''),
+    (30, 'CREATE_USER_ROLES', ''),
+    (31, 'UPDATE_USER_ROLES', ''),
+    (32, 'DELETE_USER_ROLES', ''),
+    (33, 'READ_ALL_COURSE_USERS', ''),
+    (34, 'CREATE_COURSE_USERS', ''),
+    (35, 'UPDATE_COURSE_USERS', ''),
+    (36, 'DELETE_COURSE_USERS', ''),
+    (37, 'READ_ALL_COURSE_TEACHERS', ''),
+    (38, 'CREATE_COURSE_TEACHERS', ''),
+    (39, 'UPDATE_COURSE_TEACHERS', ''),
+    (40, 'DELETE_COURSE_TEACHERS', '');
 
 -- Role Privileges
 INSERT INTO role_privileges(privilege_id, role_id)

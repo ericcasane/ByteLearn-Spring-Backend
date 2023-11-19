@@ -49,6 +49,11 @@ public class CourseService {
         return courses.stream().map(CourseDTO::new).collect(Collectors.toList());
     }
 
+    public CourseDTO getCourse(String id) {
+        Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
+        return new CourseDTO(course);
+    }
+
     @Transactional
     public CourseDTO updateCourseTitleDescrOrImageURL(String id, Map<String, String> updates) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
@@ -99,13 +104,4 @@ public class CourseService {
         course.addCategories(categories);
     }
 
-    /*@Transactional
-    public void addCategoryToCourse(String courseId, List<Long> categoryIds) {
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
-        categoryIds.forEach(categoryId -> {
-            course.addCategory(
-                    categoryRepository.findById(String.valueOf(categoryId))
-                            .orElseThrow(() -> new CourseNotFoundException(courseId)));
-        });
-    }*/
 }

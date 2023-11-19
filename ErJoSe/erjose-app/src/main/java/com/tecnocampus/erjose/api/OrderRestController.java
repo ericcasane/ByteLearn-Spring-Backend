@@ -7,6 +7,9 @@ import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.List;
+
 @Tag(name = "Order Controller", description = "Controller to manage orders")
 @RestController
 @RequestMapping("/orders")
@@ -18,14 +21,15 @@ public class OrderRestController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public OrderDTO createOrder(@Valid @RequestBody OrderDTO orderDTO) {
+    public OrderDTO createOrder(@Valid @RequestBody OrderDTO orderDTO, Principal principal) {
+        System.out.println("Principal: " + principal.getName());
         return orderService.createOrder(orderDTO);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public OrderDTO getOrders() {
-        return orderService.createOrder(new OrderDTO(null, null));
+    public List<OrderDTO> getOrders() {
+        return orderService.getOrders();
     }
 
 }

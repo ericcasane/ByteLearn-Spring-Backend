@@ -46,7 +46,7 @@ public class SecurityBeansConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                 .allowedOrigins("http://localhost:3000") // React frontend url
+                 .allowedOrigins("http://localhost:3000", "https://bitelearn-iuvru0aeb-ericcasane.vercel.app/") // React frontend url localhost:3000
                  .allowedMethods("GET", "POST", "PUT", "DELETE")
                  .maxAge(3600);
             }

@@ -19,7 +19,7 @@ public class Lesson {
     private String description;
 
     @ManyToOne
-    private Course course;
+    private Course courses;
 
     public Lesson() {
     }

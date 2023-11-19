@@ -21,7 +21,7 @@ import java.util.Optional;
 @Tag(name = "2. Course Controller", description = "Controller to manage courses")
 @RestController
 @RequestMapping("/courses")
-//@SecurityRequirement(name = "BearerAuth")
+@SecurityRequirement(name = "BearerAuth")
 public class CourseRestController {
     private final CourseService courseService;
 
@@ -39,15 +39,21 @@ public class CourseRestController {
         return courseService.getCourses();
     }
 
+    @GetMapping("/{courseId}")
+    @Operation(summary = "Get course by id", description = "Returns the course with the given id")
+    public CourseDTO getCourse(@PathVariable String courseId) {
+        return courseService.getCourse(courseId);
+    }
+
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @PreAuthorize("hasAuthority('CREATE_COURSES')")
     @Operation(summary = "Create a new course", description = "Returns the created course")
     public CourseDTO createCourse(@Valid @RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }
     
     @PatchMapping("/{courseId}")
-    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @PreAuthorize("hasAuthority('UPDATE_COURSES')")
     @Operation(summary = "Update course title, description or image url", description = "The course id must exist")
     @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Course updated"),
@@ -62,21 +68,21 @@ public class CourseRestController {
     }
 
     @PatchMapping("/{courseId}/price")
-    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @PreAuthorize("hasAuthority('UPDATE_COURSES')")
     @Operation(summary = "Update course price", description = "The course id must exist")
     public CourseDTO updateCoursePrice(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updatePrice(courseId, courseDTO.currentPrice());
     }
 
     @PatchMapping("/{courseId}/available")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_COURSES')")
     @Operation(summary = "Update course available", description = "The course id must exist")
     public CourseDTO updateCourseAvailable(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
         return courseService.updateAvailable(courseId, courseDTO.available());
     }
 
     @PutMapping("/{courseId}/categories")
-    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @PreAuthorize("hasAuthority('UPDATE_COURSES')")
     @Operation(summary = "Add categories ids to course", description = "The course id must exist")
     public void addCategoryToCourse(@PathVariable String courseId, @RequestParam List<Long> categoryIds) {
         courseService.addCategoriesToCourse(courseId, categoryIds);

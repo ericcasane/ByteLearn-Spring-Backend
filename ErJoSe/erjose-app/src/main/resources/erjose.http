@@ -51,3 +51,13 @@ Authorization: {{auth_token_teacher}}
 ### get courses for admin
 GET http://localhost:8080/courses
 Authorization: {{auth_token_admin}}
+
+### create order for student
+POST http://localhost:8080/orders
+Authorization: {{auth_token_student}}
+Content-Type: application/json
+
+{
+  "courseId": 1
+}
+

@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -23,6 +24,10 @@ public class OrderService {
 
         orderRepository.save(order);
         return new OrderDTO(order);
+    }
+
+    public List<OrderDTO> getOrders() {
+        return null; //TODO get orders from repository
     }
 
 }
