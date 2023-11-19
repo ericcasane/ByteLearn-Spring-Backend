@@ -57,9 +57,6 @@ public class User {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    /**
-     *
-     */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -68,6 +65,9 @@ public class User {
 
     @OneToMany
     private List<Order> orders;
+
+    @OneToMany
+    private List<Enrollment> enrollments;
 
     public User() {
 

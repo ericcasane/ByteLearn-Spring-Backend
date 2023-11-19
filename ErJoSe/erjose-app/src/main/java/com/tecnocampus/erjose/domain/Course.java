@@ -58,6 +58,9 @@ public class Course {
     @OneToMany
     private List<Lesson> lessons;
 
+    @OneToMany
+    private List<Enrollment> enrollments;
+
     public Course() {
 
     }

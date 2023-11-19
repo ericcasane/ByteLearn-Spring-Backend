@@ -1,10 +1,7 @@
 package com.tecnocampus.erjose.domain;
 
 import com.tecnocampus.erjose.application.dto.LessonDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
@@ -20,6 +17,9 @@ public class Lesson {
 
     @ManyToOne
     private Course courses;
+
+    @ManyToMany
+    private List<Enrollment> enrollments;
 
     public Lesson() {
     }
