@@ -1,4 +1,4 @@
-package com.tecnocampus.erjose.application.dto.course;
+package com.tecnocampus.erjose.application.dto;
 
 
 import com.tecnocampus.erjose.application.dto.CategoryDetailsDTO;

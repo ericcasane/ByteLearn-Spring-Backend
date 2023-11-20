@@ -1,6 +1,6 @@
 package com.tecnocampus.erjose.domain;
 
-import com.tecnocampus.erjose.application.dto.course.CourseDTO;
+import com.tecnocampus.erjose.application.dto.CourseDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -55,7 +55,11 @@ public class Course {
     @ManyToMany(mappedBy = "purchasedCourses")
     private List<Order> orders;
 
-    @OneToMany
+    @OneToMany (
+            mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Lesson> lessons;
 
     @OneToMany
@@ -130,4 +134,13 @@ public class Course {
     public void addCategories(List<Category> categories){
         this.categories.addAll(categories);
     }
+
+    public void addLesson(Lesson lesson) {
+        this.lessons.add(lesson);
+    }
+
+    public List<Lesson> getLessons() {
+        return lessons;
+    }
+
 }

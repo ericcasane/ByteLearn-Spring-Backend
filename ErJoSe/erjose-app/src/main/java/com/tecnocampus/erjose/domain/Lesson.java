@@ -22,7 +22,8 @@ public class Lesson {
     private String videoUrl;
 
     @ManyToOne
-    private Course courses;
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @ManyToMany
     private List<Enrollment> enrollments;

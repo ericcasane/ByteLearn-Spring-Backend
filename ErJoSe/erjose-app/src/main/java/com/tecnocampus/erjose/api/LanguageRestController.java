@@ -3,6 +3,7 @@ package com.tecnocampus.erjose.api;
 import com.tecnocampus.erjose.application.LanguageService;
 import com.tecnocampus.erjose.application.dto.LanguageDTO;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Tag(name = "3. Language Controller", description = "Controller to manage languages")
 @RestController
 @RequestMapping("/languages")
+@SecurityRequirement(name = "BearerAuth")
 public class LanguageRestController {
     private final LanguageService languageService;
     public LanguageRestController(LanguageService languageService) {

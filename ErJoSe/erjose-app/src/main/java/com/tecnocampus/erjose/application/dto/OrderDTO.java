@@ -7,10 +7,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record OrderDTO (
-        BigDecimal total,
-        List<Course> purchasedCourses
+        List<String> coursesIds
 ){
     public OrderDTO(Order order) {
-        this(order.getTotal(), order.getPurchasedCourses());
+        this(order.getPurchasedCourses().stream().map(Course::getId).toList());
     }
 }

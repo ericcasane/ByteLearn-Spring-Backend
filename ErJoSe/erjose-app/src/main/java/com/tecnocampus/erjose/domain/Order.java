@@ -38,37 +38,20 @@ public class Order {
     )
     private List<Course> purchasedCourses;
 
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
-
     public Order() {
     }
 
-    public Order(OrderDTO orderDTO){
-        this.total = orderDTO.total();
-        this.purchasedCourses = orderDTO.purchasedCourses();
+    public Order(User userId, List<Course> purchasedCourses) {
+        this.userId = userId;
+        this.purchasedCourses = purchasedCourses;
+        this.total = purchasedCourses.stream().map(Course::getCurrentPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
-
-    
     public List<Course> getPurchasedCourses() {
         return purchasedCourses;
-    }
-
-    public void setPurchasedCourses(List<Course> purchasedCourses) {
-        this.purchasedCourses = purchasedCourses;
     }
 }

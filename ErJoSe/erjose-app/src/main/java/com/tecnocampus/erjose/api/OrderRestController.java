@@ -2,6 +2,7 @@ package com.tecnocampus.erjose.api;
 
 import com.tecnocampus.erjose.application.OrderService;
 import com.tecnocampus.erjose.application.dto.OrderDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import java.util.List;
 @Tag(name = "Order Controller", description = "Controller to manage orders")
 @RestController
 @RequestMapping("/orders")
+@SecurityRequirement(name = "BearerAuth")
 public class OrderRestController {
     private final OrderService orderService;
     public OrderRestController(OrderService orderService) {

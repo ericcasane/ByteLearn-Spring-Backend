@@ -96,4 +96,8 @@ public class User {
     public String getUsername() {
         return username;
     }
+
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
+    }
 }

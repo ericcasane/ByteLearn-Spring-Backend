@@ -41,6 +41,12 @@ public class Enrollment {
         this.state = EEnrollmentState.IN_PROGRESS;
     }
 
+    public Enrollment(User userId, Course courseId) {
+        this();
+        this.userId = userId;
+        this.courseId = courseId;
+    }
+
 
     public User getUserId() {
         return userId;
