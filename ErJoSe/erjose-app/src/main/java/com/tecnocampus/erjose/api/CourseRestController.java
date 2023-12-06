@@ -96,14 +96,6 @@ public class CourseRestController {
     public CourseDetailsDTO addLessonsToCourse(@PathVariable String courseId, @Valid @RequestBody LessonDTO lessonDTO) {
         return courseService.addLessonToCourse(courseId, lessonDTO);
     }
-
-    @PostMapping("/{courseId}/reviews")
-    @PreAuthorize("hasAuthority('CREATE_COURSE_REVIEW')")
-    @Operation(summary = "Add review to course", description = "The course id must exist")
-    public CourseDetailsDTO addReviewToCourse(@PathVariable String courseId, @Valid @RequestBody ReviewDTO reviewDTO) {
-        return courseService.addReviewToCourse(courseId, reviewDTO);
-    }
-
 }
 
 

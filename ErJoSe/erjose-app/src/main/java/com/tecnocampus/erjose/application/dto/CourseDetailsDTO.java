@@ -2,6 +2,7 @@ package com.tecnocampus.erjose.application.dto;
 
 
 import com.tecnocampus.erjose.domain.Course;
+import com.tecnocampus.erjose.domain.ReviewDetailsDTO;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -17,7 +18,7 @@ public record CourseDetailsDTO(
         BigDecimal currentPrice,
         boolean available,
         Set<CategoryDetailsDTO> categories,
-        List<ReviewDTO> reviews
+        List<ReviewDetailsDTO> reviews
 ) {
 
     public CourseDetailsDTO(Course course) {
@@ -32,7 +33,7 @@ public record CourseDetailsDTO(
                     .map(category -> new CategoryDetailsDTO(category.getId(), category.getName()))
                     .collect(Collectors.toSet()),
             course.getReviews() != null ? course.getReviews().stream()
-                    .map(review -> new ReviewDTO(review.getUsername(), review.getComment(), review.getRating()))
+                    .map(ReviewDetailsDTO::new)
                     .collect(Collectors.toList()) : Collections.emptyList()
         );
     }

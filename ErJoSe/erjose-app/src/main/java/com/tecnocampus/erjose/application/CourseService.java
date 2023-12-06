@@ -28,18 +28,15 @@ public class CourseService {
     private final CategoryRepository categoryRepository;
     private final UserDetailsService userDetailsService;
     private final LessonRepository lessonRepository;
-    private final ReviewRepository reviewRepository;
 
 
     public CourseService(CourseRepository courseRepository,
                          CategoryRepository categoryRepository, UserDetailsService userDetailsService,
-                         LessonRepository lessonRepository,
-                         ReviewRepository reviewRepository) {
+                         LessonRepository lessonRepository) {
         this.courseRepository = courseRepository;
         this.categoryRepository = categoryRepository;
         this.userDetailsService = userDetailsService;
         this.lessonRepository = lessonRepository;
-        this.reviewRepository = reviewRepository;
     }
 
     public CourseDetailsDTO createCourse(CourseDTO courseDTO) {
@@ -132,16 +129,4 @@ public class CourseService {
         lessonRepository.save(lesson);
         return new CourseDetailsDTO(course);
     }
-
-    @Transactional
-    public CourseDetailsDTO addReviewToCourse(String courseId, ReviewDTO reviewDTO) {
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
-        if(!course.isAvailable())
-            throw new IllegalStateException("A course must be available to add a review");
-        Review review = new Review(reviewDTO, course);
-        course.addReview(review);
-        reviewRepository.save(review);
-        return new CourseDetailsDTO(course);
-    }
-
 }

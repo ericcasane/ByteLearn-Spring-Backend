@@ -167,4 +167,8 @@ public class Course {
     public void addReview(Review review) {
         this.reviews.add(review);
     }
+
+    public void editReview(){
+
+    }
 }

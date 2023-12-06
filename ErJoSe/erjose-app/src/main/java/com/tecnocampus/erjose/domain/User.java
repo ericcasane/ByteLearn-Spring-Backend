@@ -71,6 +71,9 @@ public class User {
     )
     private List<Enrollment> enrollments;
 
+    @OneToMany ( mappedBy = "user")
+    private List<Review> reviews;
+
     public User() {
 
     }
@@ -105,5 +108,13 @@ public class User {
 
     public void addEnrollment(Enrollment enrollment) {
         enrollments.add(enrollment);
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
     }
 }

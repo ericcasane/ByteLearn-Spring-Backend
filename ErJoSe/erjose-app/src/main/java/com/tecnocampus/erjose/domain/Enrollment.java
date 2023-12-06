@@ -57,8 +57,12 @@ public class Enrollment {
         return userId;
     }
 
-    public Course getCourseId() {
+    public Course getCourse() {
         return courseId;
+    }
+
+    public String getCourseId() {
+        return courseId.getId();
     }
 
     public Integer getProgress() {
@@ -71,6 +75,10 @@ public class Enrollment {
 
     public List<EnrollmentLesson> getEnrollmentLessons() {
         return enrollmentLessons;
+    }
+
+    public boolean halfLessonsDone() {
+        return this.progress >= this.courseId.getLessons().size() / 2;
     }
 
     public void incrementProgress() {

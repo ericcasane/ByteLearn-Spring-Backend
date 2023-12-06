@@ -16,8 +16,8 @@ public record EnrollmentDTO (
 {
     public EnrollmentDTO(Enrollment enrollment) {
         this(
-            enrollment.getCourseId().getTitle(),
-            enrollment.getProgress() + "/" + enrollment.getCourseId().getLessons().size(),
+            enrollment.getCourse().getTitle(),
+            enrollment.getProgress() + "/" + enrollment.getCourse().getLessons().size(),
             enrollment.getState(),
             enrollment.getEnrollmentLessons().stream().map(EnrollmentLesson::getLesson).map(LessonDTO::new).toList()
         );

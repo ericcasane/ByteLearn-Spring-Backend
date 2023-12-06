@@ -1,5 +1,6 @@
 package com.tecnocampus.erjose.api;
 
+import com.tecnocampus.erjose.application.dto.CourseDetailsDTO;
 import com.tecnocampus.erjose.application.dto.EnrollmentDTO;
 import com.tecnocampus.erjose.application.EnrollmentService;
 import com.tecnocampus.erjose.application.dto.ReviewDTO;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,4 +34,19 @@ public class EnrollmentRestController {
             @RequestParam Optional<EEnrollmentState> state) {
         return enrollmentService.getUserEnrollments(state);
     }
+
+    @PostMapping("/{enrollmentId}/review")
+    @PreAuthorize("hasAuthority('CREATE_COURSE_REVIEW')")
+    @Operation(summary = "Add review to course", description = "The course id must exist")
+    public CourseDetailsDTO addReviewToCourse(@PathVariable Integer enrollmentId, @Valid @RequestBody ReviewDTO reviewDTO) {
+        return enrollmentService.addReviewToCourse(enrollmentId, reviewDTO);
+    }
+
+    @PatchMapping("/{enrollmentId}/review")
+    @PreAuthorize("hasAuthority('CREATE_COURSE_REVIEW')")
+    @Operation(summary = "Add review to course", description = "The course id must exist")
+    public CourseDetailsDTO editReview(@PathVariable Integer reviewId, @PathVariable String username) {
+        return enrollmentService.editReview(reviewId, username);
+    }
+
 }
