@@ -82,12 +82,28 @@ public class Lesson implements Comparable<Lesson>{
         this.description = description;
     }
 
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
+    }
+
+    public void setDuration(Double duration) {
+        this.duration = duration;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
     public Double getDuration() {
         return duration;
     }
 
     public String getVideoUrl() {
         return videoUrl;
+    }
+
+    public Integer getSequence() {
+        return sequence;
     }
 
     @Override

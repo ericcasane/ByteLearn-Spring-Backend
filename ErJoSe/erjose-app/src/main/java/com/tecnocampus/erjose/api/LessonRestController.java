@@ -3,6 +3,7 @@ package com.tecnocampus.erjose.api;
 import com.tecnocampus.erjose.application.EnrollmentLessonService;
 import com.tecnocampus.erjose.application.LessonService;
 import com.tecnocampus.erjose.application.dto.LessonDTO;
+import com.tecnocampus.erjose.application.dto.LessonDetailsDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,5 +36,12 @@ public class LessonRestController {
     @Operation(summary = "Complete a lesson")
     public void completeLesson(@PathVariable Integer lessonId) {
         enrollmentLessonService.completeLesson(lessonId);
+    }
+
+    @PatchMapping("/{lessonId}")
+    @PreAuthorize("hasAuthority('UPDATE_LESSON')")
+    @Operation(summary = "Update a lesson")
+    public LessonDTO updateLesson(@PathVariable String lessonId, @RequestBody LessonDetailsDTO lessonDetailsDTO) {
+        return lessonService.updateLesson(lessonId, lessonDetailsDTO);
     }
 }

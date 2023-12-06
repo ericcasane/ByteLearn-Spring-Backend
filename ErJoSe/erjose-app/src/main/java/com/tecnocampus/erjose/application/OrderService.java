@@ -59,7 +59,7 @@ public class OrderService {
     }
 
     public List<OrderCreateDTO> getOrders() {
-        /*/String username = userDetailsService.getAuthenticatedUsername();
+        /*String username = userDetailsService.getAuthenticatedUsername();
         if (username != null && userDetailsService.hasPrivilege("ROLE_STUDENT")) {
             return orderRepository.findByUserId(username).stream()
                     .map(OrderDTO::new)

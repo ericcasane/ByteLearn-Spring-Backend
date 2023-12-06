@@ -167,7 +167,8 @@ VALUES
     (11, 'READ_ORDER'), -- Done
     (12, 'COMPLETE_LESSON'), -- Done
     (13, 'READ_ENROLLMENT'), -- Done
-    (14, 'CREATE_COURSE_REVIEW') -- Done
+    (14, 'CREATE_COURSE_REVIEW'), -- Done
+    (15, 'UPDATE_LESSON') -- Done
 ;
 
 
@@ -189,6 +190,7 @@ VALUES -- role_guest(1), role_student(2), role_teacher(3), role_admin(4)
     (12, 4), -- admin can complete lessons
     (13, 4), -- admin can read enrollments
     (14, 4), -- admin can create course reviews
+    (15, 4), -- admin can update lessons
     -- Privileges for teacher
     (1, 3), -- teacher can read courses
     (2, 3), -- teacher can create courses
@@ -201,6 +203,7 @@ VALUES -- role_guest(1), role_student(2), role_teacher(3), role_admin(4)
     (12, 3), -- teacher can complete lessons
     (13, 3), -- teacher can read enrollments
     (14, 3), -- teacher can create course reviews
+    (15, 3), -- teacher can update lessons
     -- Privileges for student
     (10, 2), -- student can create orders
     (11, 2), -- student can read orders
