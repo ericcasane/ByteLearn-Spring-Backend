@@ -21,8 +21,20 @@ public class ReviewService {
         this.userDetailsService = userDetailsService;
     }
 
-    public List<ReviewDetailsDTO> getUserReviews(String authenticatedUsername) {
-        return reviewRepository.findByUsername(authenticatedUsername);
+    public List<ReviewDetailsDTO> getReviews() {
+        String username = userDetailsService.getAuthenticatedUsername();
+        if (username == null)
+            throw new UnauthorizedException("You are not authorized to get reviews");
+        return reviewRepository.findByUsername(username);
+    }
+
+    public List<ReviewDetailsDTO> getReviews(String orderBy) {
+        if (orderBy.equals("createdAt"))
+            return reviewRepository.findAllByOrderByCreatedAtDesc();
+        else if (orderBy.equals("rating"))
+            return reviewRepository.findAllByOrderByRatingDesc();
+        else
+            throw new ResourceNotFoundException("Invalid orderBy parameter");
     }
 
     @Transactional

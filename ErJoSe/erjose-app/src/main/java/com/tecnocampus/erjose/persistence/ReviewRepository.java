@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
     List<ReviewDetailsDTO> findByUsername(String username);
+
+    List<ReviewDetailsDTO> findAllByOrderByCreatedAtDesc();
+
+    List<ReviewDetailsDTO> findAllByOrderByRatingDesc();
 }

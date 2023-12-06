@@ -12,7 +12,8 @@ public record EnrollmentDTO (
         String title,
         String progress,
         EEnrollmentState state,
-        List<LessonDTO> enrollmentLessons)
+        List<LessonDTO> enrollmentLessons
+)
 {
     public EnrollmentDTO(Enrollment enrollment) {
         this(

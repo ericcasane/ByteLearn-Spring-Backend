@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "9. Review", description = "Controller to manage reviews")
 @RestController
@@ -19,17 +20,17 @@ import java.util.List;
 @SecurityRequirement(name = "BearerAuth")
 public class ReviewRestController {
     private final ReviewService reviewService;
-    private final UserDetailsService userDetailsService;
 
-    public ReviewRestController(ReviewService reviewService, UserDetailsService userDetailsService) {
+    public ReviewRestController(ReviewService reviewService) {
         this.reviewService = reviewService;
-        this.userDetailsService = userDetailsService;
     }
 
     @GetMapping
     @Operation(summary = "Gets reviews of the user")
-    public List<ReviewDetailsDTO> getUserReviews() {
-        return reviewService.getUserReviews(userDetailsService.getAuthenticatedUsername());
+    public List<ReviewDetailsDTO> getReviews(@RequestParam Optional<String> orderBy) {
+        if (orderBy.isEmpty())
+            return reviewService.getReviews();
+        return reviewService.getReviews(orderBy.get());
     }
 
     @PatchMapping("/{reviewId}")
