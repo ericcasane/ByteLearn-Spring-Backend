@@ -2,6 +2,7 @@ package com.tecnocampus.erjose.domain;
 
 import com.tecnocampus.erjose.application.dto.CategoryDTO;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jdk.jfr.Enabled;
 
 import java.util.HashSet;
@@ -14,7 +15,11 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String description;
 
     @ManyToMany(mappedBy = "categories", fetch=FetchType.EAGER)

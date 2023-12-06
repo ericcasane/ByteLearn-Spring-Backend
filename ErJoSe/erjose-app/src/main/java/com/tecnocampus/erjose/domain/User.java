@@ -48,6 +48,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @NotBlank
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean active;
 
@@ -63,10 +64,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany
-    private List<Order> orders;
-
-    @OneToMany
+    @OneToMany (
+            mappedBy = "userId",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Enrollment> enrollments;
 
     public User() {
@@ -99,5 +101,9 @@ public class User {
 
     public List<Enrollment> getEnrollments() {
         return enrollments;
+    }
+
+    public void addEnrollment(Enrollment enrollment) {
+        enrollments.add(enrollment);
     }
 }

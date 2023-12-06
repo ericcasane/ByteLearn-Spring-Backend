@@ -1,10 +1,8 @@
 package com.tecnocampus.erjose.application;
 
-import com.tecnocampus.erjose.application.dto.CategoryDTO;
 import com.tecnocampus.erjose.application.dto.LanguageDTO;
 import com.tecnocampus.erjose.domain.Language;
 import com.tecnocampus.erjose.persistence.LanguageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

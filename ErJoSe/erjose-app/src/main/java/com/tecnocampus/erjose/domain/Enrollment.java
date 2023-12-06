@@ -2,17 +2,20 @@ package com.tecnocampus.erjose.domain;
 
 import com.tecnocampus.erjose.domain.enumeration.EEnrollmentState;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
 import java.util.List;
 
-@Table
-@Entity(name = "enrollments")
+@Entity
+@Table(name = "enrollments")
 public class Enrollment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @ManyToOne
@@ -21,14 +24,17 @@ public class Enrollment {
     @ManyToOne
     private Course courseId;
 
-    @ManyToMany
-    private List<Lesson> lessons;
-
+    @NotNull
+    @Min(value = 0, message = "Progress must be greater than 0")
     private Integer progress;
 
+    @Enumerated(EnumType.ORDINAL)
     private EEnrollmentState state;
 
     private String certificateId;
+
+    @OneToMany(mappedBy = "enrollment", cascade = CascadeType.ALL)
+    private List<EnrollmentLesson> enrollmentLessons;
 
     @CreationTimestamp
     private Instant enrolledAt;
@@ -38,7 +44,7 @@ public class Enrollment {
 
     public Enrollment() {
         this.progress = 0;
-        this.state = EEnrollmentState.IN_PROGRESS;
+        this.state = EEnrollmentState.NOT_STARTED;
     }
 
     public Enrollment(User userId, Course courseId) {
@@ -47,68 +53,33 @@ public class Enrollment {
         this.courseId = courseId;
     }
 
-
-    public User getUserId() {
+    public User getUser() {
         return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
     }
 
     public Course getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(Course courseId) {
-        this.courseId = courseId;
-    }
-
-    public List<Lesson> getLessons() {
-        return lessons;
-    }
-
-    public void setLessons(List<Lesson> lessons) {
-        this.lessons = lessons;
-    }
-
     public Integer getProgress() {
         return progress;
-    }
-
-    public void setProgress(Integer progress) {
-        this.progress = progress;
     }
 
     public EEnrollmentState getState() {
         return state;
     }
 
-    public void setState(EEnrollmentState state) {
-        this.state = state;
+    public List<EnrollmentLesson> getEnrollmentLessons() {
+        return enrollmentLessons;
     }
 
-    public String getCertificateId() {
-        return certificateId;
+    public void incrementProgress() {
+        this.progress++;
+        if (this.progress.equals(this.courseId.getLessons().size())) {
+            this.state = EEnrollmentState.COMPLETED;
+        } else {
+            this.state = EEnrollmentState.IN_PROGRESS;
+        }
     }
 
-    public void setCertificateId(String certificateId) {
-        this.certificateId = certificateId;
-    }
-
-    public Instant getEnrolledAt() {
-        return enrolledAt;
-    }
-
-    public void setEnrolledAt(Instant enrolledAt) {
-        this.enrolledAt = enrolledAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

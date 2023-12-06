@@ -1,7 +1,9 @@
 package com.tecnocampus.erjose.api;
 
 import com.tecnocampus.erjose.application.OrderService;
+import com.tecnocampus.erjose.application.dto.OrderCreateDTO;
 import com.tecnocampus.erjose.application.dto.OrderDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-@Tag(name = "Order Controller", description = "Controller to manage orders")
+@Tag(name = "6. Order", description = "Controller to manage orders")
 @RestController
 @RequestMapping("/orders")
 @SecurityRequirement(name = "BearerAuth")
@@ -22,15 +24,16 @@ public class OrderRestController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public OrderDTO createOrder(@Valid @RequestBody OrderDTO orderDTO, Principal principal) {
-        System.out.println("Principal: " + principal.getName());
-        return orderService.createOrder(orderDTO);
+    @PreAuthorize("hasAuthority('CREATE_ORDER')")
+    @Operation(summary = "Create an order")
+    public OrderDTO createOrder(@Valid @RequestBody OrderCreateDTO orderCreateDTO) {
+        return orderService.createOrder(orderCreateDTO);
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_STUDENT')")
-    public List<OrderDTO> getOrders() {
+    @PreAuthorize("hasAuthority('READ_ORDER')")
+    @Operation(summary = "Get all orders")
+    public List<OrderCreateDTO> getOrders() {
         return orderService.getOrders();
     }
 

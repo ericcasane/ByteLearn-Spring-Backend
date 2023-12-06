@@ -1,8 +1,7 @@
 package com.tecnocampus.erjose.api;
 
 import com.tecnocampus.erjose.application.CourseService;
-import com.tecnocampus.erjose.application.dto.LessonDTO;
-import com.tecnocampus.erjose.application.dto.CourseDTO;
+import com.tecnocampus.erjose.application.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Tag(name = "2. Course Controller", description = "Controller to manage courses")
+@Tag(name = "2. Course", description = "Controller to manage courses")
 @RestController
 @RequestMapping("/courses")
 @SecurityRequirement(name = "BearerAuth")
@@ -42,14 +42,15 @@ public class CourseRestController {
 
     @GetMapping("/{courseId}")
     @Operation(summary = "Get course by id", description = "Returns the course with the given id")
-    public CourseDTO getCourse(@PathVariable String courseId) {
+    public CourseDetailsDTO getCourse(@PathVariable String courseId) {
         return courseService.getCourse(courseId);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('CREATE_COURSE')")
+    @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new course", description = "Returns the created course")
-    public CourseDTO createCourse(@Valid @RequestBody CourseDTO courseDTO) {
+    public CourseDetailsDTO createCourse(@Valid @RequestBody CourseDTO courseDTO) {
         return courseService.createCourse(courseDTO);
     }
     
@@ -64,43 +65,43 @@ public class CourseRestController {
                     { @Content(mediaType = "application/json", schema =
                       @Schema(implementation = ErrorResponse.class)) })
     })
-    public CourseDTO updateCourse(@PathVariable String courseId, @RequestBody Map<String, String> updates) {
+    public CourseDetailsDTO updateCourse(@PathVariable String courseId, @RequestBody Map<String, String> updates) {
         return courseService.updateCourseTitleDescrOrImageURL(courseId, updates);
     }
 
     @PatchMapping("/{courseId}/price")
     @PreAuthorize("hasAuthority('UPDATE_COURSE')")
     @Operation(summary = "Update course price", description = "The course id must exist")
-    public CourseDTO updateCoursePrice(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
-        return courseService.updatePrice(courseId, courseDTO.currentPrice());
+    public CourseDetailsDTO updateCoursePrice(@PathVariable String courseId, @Valid @RequestBody CourseDetailsDTO courseDetailsDTO) {
+        return courseService.updatePrice(courseId, courseDetailsDTO.currentPrice());
     }
 
     @PatchMapping("/{courseId}/available")
     @PreAuthorize("hasAuthority('UPDATE_COURSE')")
     @Operation(summary = "Update course available", description = "The course id must exist")
-    public CourseDTO updateCourseAvailable(@PathVariable String courseId, @Valid @RequestBody CourseDTO courseDTO) {
-        return courseService.updateAvailable(courseId, courseDTO.available());
+    public CourseDetailsDTO updateCourseAvailable(@PathVariable String courseId, @Valid @RequestBody CourseDetailsDTO courseDetailsDTO) {
+        return courseService.updateAvailable(courseId, courseDetailsDTO.available());
     }
 
-    @PutMapping("/{courseId}/categories")
+    @PostMapping("/{courseId}/categories")
     @PreAuthorize("hasAuthority('UPDATE_COURSE')")
     @Operation(summary = "Add categories ids to course", description = "The course id must exist")
-    public void addCategoryToCourse(@PathVariable String courseId, @RequestParam List<Long> categoryIds) {
-        courseService.addCategoriesToCourse(courseId, categoryIds);
+    public CourseDetailsDTO addCategoryToCourse(@PathVariable String courseId, @RequestBody CourseCategoriesDTO courseCategoriesDTO) {
+        return courseService.addCategoriesToCourse(courseId, courseCategoriesDTO);
     }
 
     @PostMapping("/{courseId}/lessons")
-    @PreAuthorize("hasAuthority('UPDATE_COURSE')")
+    @PreAuthorize("hasAuthority('CREATE_LESSON')")
     @Operation(summary = "Add lessons to course", description = "The course id must exist")
-    public CourseDTO addLessonsToCourse(@PathVariable String courseId, @RequestBody LessonDTO lessonDTO) {
+    public CourseDetailsDTO addLessonsToCourse(@PathVariable String courseId, @Valid @RequestBody LessonDTO lessonDTO) {
         return courseService.addLessonToCourse(courseId, lessonDTO);
     }
 
-    @GetMapping("/courses/")
-    @PreAuthorize("hasAuthority('READ_COURSES')")
-    @Operation(summary = "Get courses")
-    public List<CourseDTO> getCourses() {
-        return courseService.getCourses();
+    @PostMapping("/{courseId}/reviews")
+    @PreAuthorize("hasAuthority('CREATE_COURSE_REVIEW')")
+    @Operation(summary = "Add review to course", description = "The course id must exist")
+    public CourseDetailsDTO addReviewToCourse(@PathVariable String courseId, @Valid @RequestBody ReviewDTO reviewDTO) {
+        return courseService.addReviewToCourse(courseId, reviewDTO);
     }
 
 }

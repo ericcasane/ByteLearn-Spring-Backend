@@ -2,8 +2,8 @@ package com.tecnocampus.erjose.application.dto;
 
 import java.util.List;
 
-public record CourseCategoryDTO (
+public record CourseCategoriesDTO(
         List<Long> categoryIds,
-        int position
+        List<Integer> categoryPositions
 ){
 }

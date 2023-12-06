@@ -1,16 +1,16 @@
 package com.tecnocampus.erjose.domain;
 
 import com.tecnocampus.erjose.application.dto.CourseDTO;
+import com.tecnocampus.erjose.application.dto.CourseDetailsDTO;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +26,8 @@ public class Course {
     @Pattern(regexp = "^[A-Z].*", message = "Title must begin with a capital letter")
     private String title;
 
+    @NotBlank
+    @Size(max = 500, message = "Description must be less than 500 characters")
     private String description;
 
     @CreationTimestamp
@@ -34,6 +36,7 @@ public class Course {
     @UpdateTimestamp
     private Instant updatedAt;
 
+    @NotBlank
     private String imageUrl;
 
     @DecimalMin(value = "0.0", inclusive = true, message = "Price must be greater than 0")
@@ -52,6 +55,13 @@ public class Course {
     @ManyToOne
     private Language language;
 
+    @OneToMany (
+            mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Review> reviews;
+
     @ManyToMany(mappedBy = "purchasedCourses")
     private List<Order> orders;
 
@@ -62,7 +72,11 @@ public class Course {
     )
     private List<Lesson> lessons;
 
-    @OneToMany
+    @OneToMany (
+            mappedBy = "courseId",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Enrollment> enrollments;
 
     public Course() {
@@ -131,6 +145,7 @@ public class Course {
     public void addCategory(Category category) {
         this.categories.add(category);
     }
+
     public void addCategories(List<Category> categories){
         this.categories.addAll(categories);
     }
@@ -140,7 +155,16 @@ public class Course {
     }
 
     public List<Lesson> getLessons() {
-        return lessons;
+        List<Lesson> orderedLessons = this.lessons;
+        Collections.sort(orderedLessons);
+        return orderedLessons;
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+    }
 }

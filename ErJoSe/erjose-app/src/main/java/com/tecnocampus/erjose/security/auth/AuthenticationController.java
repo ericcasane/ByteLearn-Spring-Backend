@@ -1,5 +1,6 @@
 package com.tecnocampus.erjose.security.auth;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "1. Authentication Controller", description = "Controller to manage authentication")
+@Tag(name = "1. Authentication", description = "Controller to manage authentication")
 @RestController
 public class AuthenticationController {
     private final AuthenticationService service;
@@ -19,6 +20,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
+    @Operation(summary = "Authenticate a user")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         AuthenticationResponse response = service.authenticate(request);
         //sending the token in the header and the body

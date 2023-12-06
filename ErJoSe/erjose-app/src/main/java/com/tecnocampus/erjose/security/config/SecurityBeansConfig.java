@@ -7,8 +7,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,6 +22,24 @@ public class SecurityBeansConfig {
 
     public SecurityBeansConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    public InMemoryUserDetailsManager inMemoryUserDetailsService(PasswordEncoder passwordEncoder) {
+        UserDetails admin = User.builder().username("admin")
+                .password(passwordEncoder.encode("password123"))
+                .authorities("ROLE_ADMIN")
+                .build();
+        UserDetails teacher = User.builder().username("teacher")
+                .password(passwordEncoder.encode("password123"))
+                .roles("TEACHER")
+                .authorities("CREATE_COURSE")
+                .build();
+        UserDetails student = User.builder().username("student")
+                .password(passwordEncoder.encode("password123"))
+                .roles("STUDENT")
+                .build();
+        return new InMemoryUserDetailsManager(admin, teacher, student);
     }
 
     @Bean

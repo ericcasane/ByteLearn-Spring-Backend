@@ -1,16 +1,16 @@
 package com.tecnocampus.erjose.application;
 
-import com.tecnocampus.erjose.application.dto.LessonDTO;
-import com.tecnocampus.erjose.application.dto.CourseDTO;
-import com.tecnocampus.erjose.application.dto.SearchCourseDTO;
+import com.tecnocampus.erjose.application.dto.*;
 import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
 import com.tecnocampus.erjose.application.exception.CourseTitleDuplicatedException;
 import com.tecnocampus.erjose.domain.Category;
 import com.tecnocampus.erjose.domain.Course;
 import com.tecnocampus.erjose.domain.Lesson;
+import com.tecnocampus.erjose.domain.Review;
 import com.tecnocampus.erjose.persistence.CategoryRepository;
 import com.tecnocampus.erjose.persistence.CourseRepository;
 import com.tecnocampus.erjose.persistence.LessonRepository;
+import com.tecnocampus.erjose.persistence.ReviewRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -28,36 +28,39 @@ public class CourseService {
     private final CategoryRepository categoryRepository;
     private final UserDetailsService userDetailsService;
     private final LessonRepository lessonRepository;
+    private final ReviewRepository reviewRepository;
 
 
     public CourseService(CourseRepository courseRepository,
                          CategoryRepository categoryRepository, UserDetailsService userDetailsService,
-                         LessonRepository lessonRepository) {
+                         LessonRepository lessonRepository,
+                         ReviewRepository reviewRepository) {
         this.courseRepository = courseRepository;
         this.categoryRepository = categoryRepository;
         this.userDetailsService = userDetailsService;
         this.lessonRepository = lessonRepository;
+        this.reviewRepository = reviewRepository;
     }
 
-    public CourseDTO createCourse(CourseDTO courseDTO) {
+    public CourseDetailsDTO createCourse(CourseDTO courseDTO) {
         if (courseRepository.existsByTitle(courseDTO.title()))
             throw new CourseTitleDuplicatedException(courseDTO.title());
         Course course = new Course(courseDTO);
         courseRepository.save(course);
-        return new CourseDTO(course);
+        return new CourseDetailsDTO(course);
     }
 
-    public CourseDTO getCourse(String id) {
+    public CourseDetailsDTO getCourse(String id) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
-        return new CourseDTO(course);
+        return new CourseDetailsDTO(course);
     }
 
-    public List<CourseDTO> getCourses() {
+    public List<CourseDetailsDTO> getCourses() {
         Boolean available = true;
         if (userDetailsService.hasPrivilege("READ_ALL_COURSES"))
             available = null;
         List<Course> courses = courseRepository.findByAvailableOrderByTitle(available);
-        return courses.stream().map(CourseDTO::new).collect(Collectors.toList());
+        return courses.stream().map(CourseDetailsDTO::new).collect(Collectors.toList());
     }
 
     public List<SearchCourseDTO> getCoursesByTitleOrDescription(Optional<String> search) {
@@ -81,48 +84,64 @@ public class CourseService {
     }
 
     @Transactional
-    public CourseDTO updateCourseTitleDescrOrImageURL(String id, Map<String, String> updates) {
+    public CourseDetailsDTO updateCourseTitleDescrOrImageURL(String id, Map<String, String> updates) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         if (course.isAvailable())
             throw new IllegalStateException("A course must be unavailable to modify");
         if (updates.containsKey("title")) course.setTitle(updates.get("title"));
         if (updates.containsKey("description")) course.setDescription(updates.get("description"));
         if (updates.containsKey("imageUrl")) course.setImageURL(updates.get("imageUrl"));
-        return new CourseDTO(course);
+        return new CourseDetailsDTO(course);
     }
 
     @Transactional
-    public CourseDTO updatePrice(String id, BigDecimal currentPrice) {
+    public CourseDetailsDTO updatePrice(String id, BigDecimal currentPrice) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         if (course.isAvailable())
             throw new IllegalStateException("A course must be unavailable to modify");
         course.setCurrentPrice(currentPrice);
-        return new CourseDTO(course);
+        return new CourseDetailsDTO(course);
     }
 
     @Transactional
-    public CourseDTO updateAvailable(String id, boolean available) {
+    public CourseDetailsDTO updateAvailable(String id, boolean available) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException(id));
         if (course.getLessons().isEmpty())
             throw new IllegalStateException("A course must have at least one lesson to be available");
         course.setAvailable(available);
-        return new CourseDTO(course);
+        return new CourseDetailsDTO(course);
     }
 
     @Transactional
-    public void addCategoriesToCourse(String courseId, List<Long> categoryIds) {
-        Course course = courseRepository.findById(courseId).orElseThrow(); //Afegir tractament excepció //TODO
-        List<Category> categories = categoryRepository.findAllById(categoryIds);
+    public CourseDetailsDTO addCategoriesToCourse(String courseId, CourseCategoriesDTO courseCategoriesDTO) {
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
+        if(course.isAvailable())
+            throw new IllegalStateException("A course must be unavailable to modify");
+        List<Category> categories = categoryRepository.findAllById(courseCategoriesDTO.categoryIds());
         course.addCategories(categories);
+        return new CourseDetailsDTO(course);
     }
 
     @Transactional
-    public CourseDTO addLessonToCourse(String courseId, LessonDTO lessonDTO) {
-        Course course = courseRepository.findById(courseId).orElseThrow(); //Afegir tractament excepció //TODO
-        Lesson lesson = new Lesson(lessonDTO);
+    public CourseDetailsDTO addLessonToCourse(String courseId, LessonDTO lessonDTO) {
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
+        if(course.isAvailable())
+            throw new IllegalStateException("A course must be unavailable to modify");
+        Lesson lesson = new Lesson(lessonDTO, course);
         course.addLesson(lesson);
         lessonRepository.save(lesson);
-        return new CourseDTO(course);
+        return new CourseDetailsDTO(course);
+    }
+
+    @Transactional
+    public CourseDetailsDTO addReviewToCourse(String courseId, ReviewDTO reviewDTO) {
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundException(courseId));
+        if(!course.isAvailable())
+            throw new IllegalStateException("A course must be available to add a review");
+        Review review = new Review(reviewDTO, course);
+        course.addReview(review);
+        reviewRepository.save(review);
+        return new CourseDetailsDTO(course);
     }
 
 }

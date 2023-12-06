@@ -131,39 +131,82 @@ VALUES
     ('5', 'e40edb92-17b3-4f3a-9758-9df565aa04f9')
 ;
 
+-- Add lessons to courses
+INSERT INTO lessons (id, title, description, duration, video_url, course_id, created_at, updated_at)
+VALUES
+    -- Diseño Web Inspirador: Más Allá de las Tendencias
+    ('ll0edb92-17b3-4f3a-9758-9df565aa0431', 'Introducción', 'Introducción al curso', 29, 'https://www.youtube.com/watch?v=9bZkp7q19f0', 'a40edb92-17b3-4f3a-9758-9df565aa04f0', current_timestamp, current_timestamp),
+    ('ll0edb92-17b3-4f3a-9758-9df565aa0432', '¿Qué es el Diseño Web?', '¿Qué es el Diseño Web?', 35, 'https://www.youtube.com/watch?v=9bZkp7q19f0', 'a40edb92-17b3-4f3a-9758-9df565aa04f0', current_timestamp, current_timestamp),
+    -- Optimización de Rendimiento en Desarrollo Web
+    ('ll0edb92-17b3-4f3a-9758-9df565aa0433', 'Introducción', 'Introducción al curso', 15, 'https://www.youtube.com/watch?v=9bZkp7q19f0', 'a40edb92-17b3-4f3a-9758-9df565aa04f1', current_timestamp, current_timestamp),
+    ('ll0edb92-17b3-4f3a-9758-9df565aa0434', '¿Qué es la Optimización de Rendimiento?', '¿Qué es la Optimización de Rendimiento?', 25, 'https://www.youtube.com/watch?v=9bZkp7q19f0', 'a40edb92-17b3-4f3a-9758-9df565aa04f1', current_timestamp, current_timestamp),
+    -- Diseño de Personajes para Videojuegos
+    ('ll0edb92-17b3-4f3a-9758-9df565aa0435', 'Introducción', 'Introducción al curso', 20, 'https://www.youtube.com/watch?v=9bZkp7q19f0', 'e40edb92-17b3-4f3a-9758-9df565aa04f1', current_timestamp, current_timestamp)
+;
 
 -- Roles
 INSERT INTO roles(name) VALUES
-                            ('ROLE_GUEST'), -- 1
-                            ('ROLE_STUDENT'), -- 2
-                            ('ROLE_TEACHER'), -- 3
-                            ('ROLE_ADMIN'); -- 4
+    ('ROLE_GUEST'), -- 1
+    ('ROLE_STUDENT'), -- 2
+    ('ROLE_TEACHER'), -- 3
+    ('ROLE_ADMIN'); -- 4
 
 -- Privileges
-INSERT INTO privileges(id, name, description)
+INSERT INTO privileges(id, name)
 VALUES
-    (1, 'READ_ALL_COURSES', ''),
-    (2, 'CREATE_COURSES', ''),
-    (3, 'UPDATE_COURSES', ''),
-    (4, 'DELETE_COURSES', ''),
-    (5, 'READ_USERS', ''),
-    (6, 'CREATE_USERS', ''),
-    (7, 'UPDATE_USERS', ''),
-    (8, 'DELETE_USERS', ''),
-    (9, 'READ_CATEGORIES', ''),
-    (10, 'CREATE_CATEGORIES', ''),
-    (11, 'UPDATE_CATEGORIES', ''),
-    (12, 'DELETE_CATEGORIES', ''),
-    (13, 'CREATE_COURSE', ''), -- Done
-    (14, 'UPDATE_COURSE', ''); -- Done
+    (1, 'READ_COURSES'),
+    (2, 'CREATE_COURSE'), -- Done
+    (3, 'UPDATE_COURSE'), -- Done
+    (4, 'CREATE_CATEGORY'), -- Done
+    (5, 'DELETE_CATEGORY'), -- Done
+    (6, 'CREATE_LANGUAGE'),
+    (7, 'UPDATE_LANGUAGE'),
+    (8, 'DELETE_LANGUAGE'),
+    (9, 'CREATE_LESSON'), -- Done
+    (10, 'CREATE_ORDER'), -- Done
+    (11, 'READ_ORDER'), -- Done
+    (12, 'COMPLETE_LESSON'), -- Done
+    (13, 'READ_ENROLLMENT'), -- Done
+    (14, 'CREATE_COURSE_REVIEW') -- Done
+;
+
 
 -- Role Privileges
 INSERT INTO role_privileges(privilege_id, role_id)
-VALUES
-    (1, 3), -- teacher can read all courses
-    (1, 4), -- admin can read all courses
-    (13, 3), -- teacher can create courses
-    (14, 3) -- teacher can update courses
+VALUES -- role_guest(1), role_student(2), role_teacher(3), role_admin(4)
+    -- Privileges for admin
+    (1, 4), -- admin can read courses
+    (2, 4), -- admin can create courses
+    (3, 4), -- admin can update courses
+    (4, 4), -- admin can create categories
+    (5, 4), -- admin can delete categories
+    (6, 4), -- admin can create languages
+    (7, 4), -- admin can update languages
+    (8, 4), -- admin can delete languages
+    (9, 4), -- admin can create lessons
+    (10, 4), -- admin can create orders
+    (11, 4), -- admin can read orders
+    (12, 4), -- admin can complete lessons
+    (13, 4), -- admin can read enrollments
+    (14, 4), -- admin can create course reviews
+    -- Privileges for teacher
+    (1, 3), -- teacher can read courses
+    (2, 3), -- teacher can create courses
+    (3, 3), -- teacher can update courses
+    (4, 3), -- teacher can create categories
+    (6, 3), -- teacher can create languages
+    (9, 3), -- teacher can create lessons
+    (10, 3), -- teacher can create orders
+    (11, 3), -- teacher can read orders
+    (12, 3), -- teacher can complete lessons
+    (13, 3), -- teacher can read enrollments
+    (14, 3), -- teacher can create course reviews
+    -- Privileges for student
+    (10, 2), -- student can create orders
+    (11, 2), -- student can read orders
+    (12, 2), -- student can complete lessons
+    (13, 2), -- student can read enrollments
+    (14, 2) -- student can create course reviews
 ;
 
 -- Usuarios

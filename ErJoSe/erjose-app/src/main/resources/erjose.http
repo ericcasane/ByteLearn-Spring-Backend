@@ -60,15 +60,19 @@ Content-Type: application/json
 
 ### get courses
 GET http://localhost:8080/courses
+
+
+### get courses
+GET http://localhost:8080/courses
 Authorization: {{auth_token}}
 
-### Create new lesson to a course
-POST http://localhost:8080/courses/{{course_id}}/lessons
+### new lesson for a course
+POST http://localhost:8080/courses/a40edb92-17b3-4f3a-9758-9df565aa04f1/lessons
 Authorization: {{auth_token}}
 Content-Type: application/json
 
 {
-  "title": "Lesson 2",
+  "title": "Lesson 1",
   "description": "Lesson 1 Description",
   "duration": 50,
   "videoUrl": "www.video.com/lesson1"
@@ -82,6 +86,10 @@ Content-Type: application/json
 {
   "coursesIds": ["a40edb92-17b3-4f3a-9758-9df565aa04f0", "a40edb92-17b3-4f3a-9758-9df565aa04f1"]
 }
+
+### get user orders
+GET http://localhost:8080/orders
+Authorization: {{auth_token}}
 
 ### get user enrollments
 GET http://localhost:8080/enrollments
