@@ -1,7 +1,6 @@
 package com.tecnocampus.erjose.application;
 
-import com.tecnocampus.erjose.application.dto.LessonDTO;
-import com.tecnocampus.erjose.application.exception.NotFoundException;
+import com.tecnocampus.erjose.application.exception.ResourceNotFoundException;
 import com.tecnocampus.erjose.domain.EnrollmentLesson;
 import com.tecnocampus.erjose.persistence.EnrollmentLessonRepository;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public class EnrollmentLessonService {
 
     @Transactional
     public void completeLesson(Integer lessonId) {
-        EnrollmentLesson lesson = enrollmentLessonRepository.findById(lessonId).orElseThrow(() -> new NotFoundException("Lesson wit id " + lessonId + " not found"));
+        EnrollmentLesson lesson = enrollmentLessonRepository.findById(lessonId).orElseThrow(() -> new ResourceNotFoundException("Lesson wit id " + lessonId + " not found"));
         lesson.completed();
     }
 

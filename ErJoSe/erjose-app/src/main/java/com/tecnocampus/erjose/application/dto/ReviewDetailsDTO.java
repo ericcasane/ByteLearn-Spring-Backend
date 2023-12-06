@@ -1,4 +1,6 @@
-package com.tecnocampus.erjose.domain;
+package com.tecnocampus.erjose.application.dto;
+
+import com.tecnocampus.erjose.domain.Review;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;

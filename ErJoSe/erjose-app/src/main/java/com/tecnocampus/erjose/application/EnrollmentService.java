@@ -5,6 +5,7 @@ import com.tecnocampus.erjose.application.dto.EnrollmentDTO;
 import com.tecnocampus.erjose.application.dto.ReviewDTO;
 import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
 import com.tecnocampus.erjose.application.exception.EnrollmentNotFoundException;
+import com.tecnocampus.erjose.application.exception.InvalidStateException;
 import com.tecnocampus.erjose.application.exception.UserNotFoundException;
 import com.tecnocampus.erjose.domain.Course;
 import com.tecnocampus.erjose.domain.Enrollment;
@@ -24,19 +25,16 @@ public class EnrollmentService {
     private final UserRepository userRepository;
     private final UserDetailsService userDetailsService;
     private final EnrollmentRepository enrollmentRepository;
-    private final EnrollmentLessonRepository enrollmentLessonRepository;
     private final CourseRepository courseRepository;
     private final ReviewRepository reviewRepository;
 
     public EnrollmentService(UserRepository userRepository, UserDetailsService userDetailsService,
                              EnrollmentRepository enrollmentRepository,
-                             EnrollmentLessonRepository enrollmentLessonRepository,
                              CourseRepository courseRepository,
                              ReviewRepository reviewRepository) {
         this.userDetailsService = userDetailsService;
         this.userRepository = userRepository;
         this.enrollmentRepository = enrollmentRepository;
-        this.enrollmentLessonRepository = enrollmentLessonRepository;
         this.courseRepository = courseRepository;
         this.reviewRepository = reviewRepository;
     }
@@ -53,24 +51,15 @@ public class EnrollmentService {
     public CourseDetailsDTO addReviewToCourse(Integer enrollmentId, ReviewDTO reviewDTO) {
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId).orElseThrow(() -> new EnrollmentNotFoundException(enrollmentId));
         User user = userRepository.findByUsername(userDetailsService.getAuthenticatedUsername()).orElseThrow(() -> new UserNotFoundException(userDetailsService.getAuthenticatedUsername()));
-        if(!enrollment.halfLessonsDone())
-            throw new IllegalStateException("An enrollment must be half completed to add a review");
+        if (!enrollment.halfLessonsDone())
+            throw new InvalidStateException("An enrollment must be half completed to add a review");
         Course course = courseRepository.findById(enrollment.getCourseId()).orElseThrow(() -> new CourseNotFoundException(enrollment.getCourseId()));
         user.getReviews().stream().filter(review -> review.getCourse().getId().equals(course.getId())).findFirst().ifPresent(review -> {
-            throw new IllegalStateException("A user cannot add more than one review to a course");
+            throw new InvalidStateException("A user cannot add more than one review to a course");
         });
-        Review review = new Review(reviewDTO, course, user);
+        Review review = new Review(reviewDTO, user.getUsername(), course, user);
         course.addReview(review);
         user.addReview(review);
-        reviewRepository.save(review);
-        return new CourseDetailsDTO(course);
-    }
-
-    public CourseDetailsDTO editReview(Integer reviewId, String username) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new EnrollmentNotFoundException(reviewId));
-        if(!username.equals(review.getUsername()))
-            throw new IllegalStateException("Another user cannot edit the review");
-        review.setComment("XD");
         reviewRepository.save(review);
         return new CourseDetailsDTO(course);
     }

@@ -41,12 +41,4 @@ public class EnrollmentRestController {
     public CourseDetailsDTO addReviewToCourse(@PathVariable Integer enrollmentId, @Valid @RequestBody ReviewDTO reviewDTO) {
         return enrollmentService.addReviewToCourse(enrollmentId, reviewDTO);
     }
-
-    @PatchMapping("/{enrollmentId}/review")
-    @PreAuthorize("hasAuthority('CREATE_COURSE_REVIEW')")
-    @Operation(summary = "Add review to course", description = "The course id must exist")
-    public CourseDetailsDTO editReview(@PathVariable Integer reviewId, @PathVariable String username) {
-        return enrollmentService.editReview(reviewId, username);
-    }
-
 }

@@ -2,7 +2,6 @@ package com.tecnocampus.erjose.application.dto;
 
 
 import com.tecnocampus.erjose.domain.Course;
-import com.tecnocampus.erjose.domain.ReviewDetailsDTO;
 
 import java.math.BigDecimal;
 import java.util.Collections;

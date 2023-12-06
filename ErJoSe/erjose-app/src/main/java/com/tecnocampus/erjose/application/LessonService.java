@@ -2,7 +2,7 @@ package com.tecnocampus.erjose.application;
 
 import com.tecnocampus.erjose.application.dto.LessonDTO;
 import com.tecnocampus.erjose.application.dto.LessonDetailsDTO;
-import com.tecnocampus.erjose.application.exception.NotFoundException;
+import com.tecnocampus.erjose.application.exception.ResourceNotFoundException;
 import com.tecnocampus.erjose.domain.Lesson;
 import com.tecnocampus.erjose.persistence.LessonRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class LessonService {
     @Transactional
     public LessonDTO updateLesson(String lessonId, LessonDetailsDTO lessonDTO) {
         Lesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new NotFoundException("Lesson with id " + lessonId + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson with id " + lessonId + " not found"));
         if (lessonDTO.title() != null) lesson.setTitle(lessonDTO.title());
         if (lessonDTO.description() != null) lesson.setDescription(lessonDTO.description());
         if (lessonDTO.duration() != null) lesson.setDuration(lessonDTO.duration());

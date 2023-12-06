@@ -57,8 +57,8 @@ public class Review {
     public Review() {
     }
 
-    public Review(ReviewDTO reviewDTO, Course course, User user) {
-        this.username = reviewDTO.username();
+    public Review(ReviewDTO reviewDTO, String username, Course course, User user) {
+        this.username = username;
         this.title = reviewDTO.title();
         this.comment = reviewDTO.comment();
         this.rating = reviewDTO.rating();
@@ -94,5 +94,9 @@ public class Review {
 
     public Course getCourse() {
         return course;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
