@@ -36,4 +36,9 @@ public class UserDetailsService implements org.springframework.security.core.use
         return securityContext.getAuthentication().getName();
     }
 
+    public User getAuthenticatedUser() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return userRepository.findByUsername(securityContext.getAuthentication().getName()).orElse(null);
+    }
+
 }

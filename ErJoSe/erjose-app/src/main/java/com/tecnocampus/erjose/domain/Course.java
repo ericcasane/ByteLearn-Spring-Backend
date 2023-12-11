@@ -81,17 +81,29 @@ public class Course {
     @ManyToMany
     private List<User> students;
 
+    @ManyToOne
+    private User teacher;
+
+    public User getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(User teacher) {
+        this.teacher = teacher;
+    }
+
     public Course() {
 
     }
 
-    public Course(CourseDTO courseDTO) {
+    public Course(CourseDTO courseDTO, User teacher) {
         this.title = courseDTO.title();
         this.description = courseDTO.description();
         this.imageUrl = courseDTO.imageUrl();
         this.currentPrice = new BigDecimal("0.0");
         this.available = false;
         this.categories = new HashSet<>();
+        this.teacher = teacher;
     }
 
     public void setTitle(String title) {

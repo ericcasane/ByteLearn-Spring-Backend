@@ -3,10 +3,7 @@ package com.tecnocampus.erjose.application;
 import com.tecnocampus.erjose.application.dto.*;
 import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
 import com.tecnocampus.erjose.application.exception.CourseTitleDuplicatedException;
-import com.tecnocampus.erjose.domain.Category;
-import com.tecnocampus.erjose.domain.Course;
-import com.tecnocampus.erjose.domain.Lesson;
-import com.tecnocampus.erjose.domain.Review;
+import com.tecnocampus.erjose.domain.*;
 import com.tecnocampus.erjose.persistence.CategoryRepository;
 import com.tecnocampus.erjose.persistence.CourseRepository;
 import com.tecnocampus.erjose.persistence.LessonRepository;
@@ -42,7 +39,8 @@ public class CourseService {
     public CourseDetailsDTO createCourse(CourseDTO courseDTO) {
         if (courseRepository.existsByTitle(courseDTO.title()))
             throw new CourseTitleDuplicatedException(courseDTO.title());
-        Course course = new Course(courseDTO);
+        User teacher = userDetailsService.getAuthenticatedUser();
+        Course course = new Course(courseDTO, teacher);
         courseRepository.save(course);
         return new CourseDetailsDTO(course);
     }
