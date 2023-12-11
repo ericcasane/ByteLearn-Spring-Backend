@@ -22,19 +22,23 @@ public class ReviewService {
     }
 
     public List<ReviewDetailsDTO> getReviews() {
-        String username = userDetailsService.getAuthenticatedUsername();
-        if (username == null)
-            throw new UnauthorizedException("You are not authorized to get reviews");
-        return reviewRepository.findByUsername(username);
+        return reviewRepository.getAllBy();
     }
 
     public List<ReviewDetailsDTO> getReviews(String orderBy) {
         if (orderBy.equals("createdAt"))
-            return reviewRepository.findAllByOrderByCreatedAtDesc();
+            return reviewRepository.findAllByOrderByCreatedAtAsc();
         else if (orderBy.equals("rating"))
-            return reviewRepository.findAllByOrderByRatingDesc();
+            return reviewRepository.findAllByOrderByRatingAsc();
         else
             throw new ResourceNotFoundException("Invalid orderBy parameter");
+    }
+
+    public List<ReviewDetailsDTO> getStudentReviews() {
+        String username = userDetailsService.getAuthenticatedUsername();
+        if (username == null)
+            throw new UnauthorizedException("You are not authorized to get this information");
+        return reviewRepository.findByUsername(username);
     }
 
     @Transactional

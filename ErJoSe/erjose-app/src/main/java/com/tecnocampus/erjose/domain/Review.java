@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reviews")
@@ -29,15 +29,15 @@ public class Review {
     @Size(max = 250, message = "Comment must be less than 250 characters")
     private String comment;
 
-    @Min(value = 0, message = "Rating minimum value is 0")
+    @Min(value = 1, message = "Rating minimum value is 1")
     @Max(value = 5, message = "Rating must be up to 5")
     private Integer rating;
 
     @CreationTimestamp
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private Instant updatedAt;
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     private User user;
@@ -87,7 +87,7 @@ public class Review {
         this.rating = rating;
     }
 
-    public Instant getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 

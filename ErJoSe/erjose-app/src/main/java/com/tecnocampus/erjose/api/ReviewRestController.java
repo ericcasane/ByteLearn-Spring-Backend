@@ -1,7 +1,6 @@
 package com.tecnocampus.erjose.api;
 
 import com.tecnocampus.erjose.application.ReviewService;
-import com.tecnocampus.erjose.application.UserDetailsService;
 import com.tecnocampus.erjose.application.dto.ReviewDTO;
 import com.tecnocampus.erjose.application.dto.ReviewDetailsDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +25,7 @@ public class ReviewRestController {
     }
 
     @GetMapping
-    @Operation(summary = "Gets reviews of the user")
+    @Operation(summary = "Get all reviews", description = "Get all reviews. orderBy options: createdAt, rating")
     public List<ReviewDetailsDTO> getReviews(@RequestParam Optional<String> orderBy) {
         if (orderBy.isEmpty())
             return reviewService.getReviews();
@@ -38,5 +37,11 @@ public class ReviewRestController {
     @Operation(summary = "Edit a review")
     public ReviewDetailsDTO editReview(@PathVariable Integer reviewId, @Valid @RequestBody ReviewDTO reviewDTO) {
         return reviewService.editReview(reviewId, reviewDTO);
+    }
+
+    @GetMapping("/my")
+    @PreAuthorize("hasRole('ROLE_STUDENT')")
+    public List<ReviewDetailsDTO> getStudentReviews() {
+        return reviewService.getStudentReviews();
     }
 }
