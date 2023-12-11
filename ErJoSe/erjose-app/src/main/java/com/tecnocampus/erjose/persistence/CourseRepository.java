@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, String>  {
@@ -61,7 +62,7 @@ public interface CourseRepository extends JpaRepository<Course, String>  {
 
     //Gets the current students and the ones who had finished the course 2 months ago at most
     @Query("""
-            SELECT new com.tecnocampus.erjose.application.dto.StudentDTO(u.username, u.firstname)
+            SELECT new com.tecnocampus.erjose.application.dto.StudentDTO(u.username, CONCAT(u.firstname, ' ', u.lastname))
             FROM Course c
             JOIN c.students u
             JOIN u.enrollments e
@@ -69,5 +70,5 @@ public interface CourseRepository extends JpaRepository<Course, String>  {
             AND (e.finishedAt IS NULL OR e.finishedAt >= :twoMonthsAgo)
             ORDER BY u.username
             """)
-    List<StudentDTO> getActualStudentsOfCourse(String courseId, LocalDate twoMonthsAgo);
+    List<StudentDTO> getActualStudentsOfCourse(String courseId, LocalDateTime twoMonthsAgo);
 }

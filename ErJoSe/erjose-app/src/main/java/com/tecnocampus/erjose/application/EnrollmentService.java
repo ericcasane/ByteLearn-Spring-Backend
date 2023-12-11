@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +71,7 @@ public class EnrollmentService {
 
     public List<StudentDTO> getStudentsOfCourse(Integer enrollmentId) {
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId).orElseThrow(() -> new EnrollmentNotFoundException(enrollmentId));
-        LocalDate twoMonthsAgo = LocalDate.now().minusMonths(2);
+        LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(2);
         return  courseRepository.getActualStudentsOfCourse(enrollment.getCourse().getId(), twoMonthsAgo);
     }
 }

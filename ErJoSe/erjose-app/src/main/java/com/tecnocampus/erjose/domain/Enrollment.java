@@ -10,6 +10,7 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -38,12 +39,12 @@ public class Enrollment {
     private List<EnrollmentLesson> enrollmentLessons;
 
     @CreationTimestamp
-    private LocalDate enrolledAt;
+    private LocalDateTime enrolledAt;
 
     @UpdateTimestamp
-    private LocalDate updatedAt;
+    private LocalDateTime updatedAt;
 
-    private LocalDate finishedAt;
+    private LocalDateTime finishedAt;
 
     public Enrollment() {
         this.progress = 0;
@@ -88,7 +89,7 @@ public class Enrollment {
         this.progress++;
         if (this.progress.equals(this.courseId.getLessons().size())) {
             this.state = EEnrollmentState.COMPLETED;
-            this.finishedAt = LocalDate.now();
+            this.finishedAt = LocalDateTime.now();
         } else {
             this.state = EEnrollmentState.IN_PROGRESS;
         }
