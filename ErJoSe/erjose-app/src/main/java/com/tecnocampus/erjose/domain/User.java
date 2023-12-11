@@ -117,4 +117,8 @@ public class User {
     public List<Review> getReviews() {
         return reviews;
     }
+
+    public String getFullname() {
+        return firstname + " " + lastname;
+    }
 }

@@ -47,6 +47,7 @@ public class OrderService {
         orderRepository.save(order);
 
         for (Course course : courses) {
+            course.addStudent(user);
             Enrollment enrollment = new Enrollment(user, course);
             enrollmentRepository.save(enrollment);
             user.addEnrollment(enrollment);

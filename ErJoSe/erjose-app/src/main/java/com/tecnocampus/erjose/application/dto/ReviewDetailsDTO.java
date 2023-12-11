@@ -10,7 +10,7 @@ public record ReviewDetailsDTO (
         String title,
         String comment,
         Integer rating,
-        String date
+        String createdAt
 ){
     private static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm").withZone(ZoneId.of("Europe/Madrid"));

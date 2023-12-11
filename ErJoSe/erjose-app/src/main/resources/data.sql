@@ -154,12 +154,12 @@ INSERT INTO roles(name) VALUES
 -- Privileges
 INSERT INTO privileges(id, name)
 VALUES
-    (1, 'READ_COURSES'),
+    (1, 'READ_COURSES'), -- Done
     (2, 'CREATE_COURSE'), -- Done
     (3, 'UPDATE_COURSE'), -- Done
     (4, 'CREATE_CATEGORY'), -- Done
     (5, 'DELETE_CATEGORY'), -- Done
-    (6, 'CREATE_LANGUAGE'),
+    (6, 'CREATE_LANGUAGE'), -- Done
     (7, 'UPDATE_LANGUAGE'),
     (8, 'DELETE_LANGUAGE'),
     (9, 'CREATE_LESSON'), -- Done
@@ -170,7 +170,6 @@ VALUES
     (14, 'CREATE_COURSE_REVIEW'), -- Done
     (15, 'UPDATE_LESSON') -- Done
 ;
-
 
 -- Role Privileges
 INSERT INTO role_privileges(privilege_id, role_id)

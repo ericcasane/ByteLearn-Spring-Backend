@@ -3,6 +3,7 @@ package com.tecnocampus.erjose.application;
 import com.tecnocampus.erjose.application.dto.CourseDetailsDTO;
 import com.tecnocampus.erjose.application.dto.EnrollmentDTO;
 import com.tecnocampus.erjose.application.dto.ReviewDTO;
+import com.tecnocampus.erjose.application.dto.StudentDTO;
 import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
 import com.tecnocampus.erjose.application.exception.EnrollmentNotFoundException;
 import com.tecnocampus.erjose.application.exception.InvalidStateException;
@@ -16,6 +17,9 @@ import com.tecnocampus.erjose.persistence.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -62,5 +66,11 @@ public class EnrollmentService {
         user.addReview(review);
         reviewRepository.save(review);
         return new CourseDetailsDTO(course);
+    }
+
+    public List<StudentDTO> getStudentsOfCourse(Integer enrollmentId) {
+        Enrollment enrollment = enrollmentRepository.findById(enrollmentId).orElseThrow(() -> new EnrollmentNotFoundException(enrollmentId));
+        LocalDate twoMonthsAgo = LocalDate.now().minusMonths(2);
+        return  courseRepository.getActualStudentsOfCourse(enrollment.getCourse().getId(), twoMonthsAgo);
     }
 }

@@ -1,7 +1,6 @@
 package com.tecnocampus.erjose.domain;
 
 import com.tecnocampus.erjose.application.dto.CourseDTO;
-import com.tecnocampus.erjose.application.dto.CourseDetailsDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -78,6 +77,9 @@ public class Course {
             orphanRemoval = true
     )
     private List<Enrollment> enrollments;
+
+    @ManyToMany
+    private List<User> students;
 
     public Course() {
 
@@ -170,5 +172,9 @@ public class Course {
 
     public void editReview(){
 
+    }
+
+    public void addStudent(User user) {
+        this.students.add(user);
     }
 }
