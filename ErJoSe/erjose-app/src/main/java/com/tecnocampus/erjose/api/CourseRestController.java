@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.ErrorResponse;
@@ -32,12 +34,17 @@ public class CourseRestController {
 
     @GetMapping
     @Operation(summary = "Get courses", description = "Returns all courses available or filtered by search or language and/or category")
-    public List<?> getCourses(Optional<String> search, @RequestParam Optional<List<Long>> categories, @RequestParam Optional<List<Long>> languages) {
+    public List<?> getCourses(Optional<String> search,
+                              @RequestParam Optional<List<Long>> categories,
+                              @RequestParam Optional<List<Long>> languages,
+                              @RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "10") int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
         if (search.isPresent()) //Search by title or description
-            return courseService.getCoursesByTitleOrDescription(search);
+            return courseService.getCoursesByTitleOrDescription(search, pageRequest);
         if (!categories.isEmpty() || !languages.isEmpty()) //Search by language or category
-            return courseService.getCoursesByLanguageOrCategory(categories, languages);
-        return courseService.getCourses();
+            return courseService.getCoursesByLanguageOrCategory(categories, languages, pageRequest);
+        return courseService.getCourses(pageRequest);
     }
 
     @GetMapping("/{courseId}")

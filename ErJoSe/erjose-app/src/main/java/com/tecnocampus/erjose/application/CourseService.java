@@ -7,9 +7,7 @@ import com.tecnocampus.erjose.domain.*;
 import com.tecnocampus.erjose.persistence.CategoryRepository;
 import com.tecnocampus.erjose.persistence.CourseRepository;
 import com.tecnocampus.erjose.persistence.LessonRepository;
-import com.tecnocampus.erjose.persistence.ReviewRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,32 +48,32 @@ public class CourseService {
         return new CourseDetailsDTO(course);
     }
 
-    public List<CourseDetailsDTO> getCourses() {
+    public List<CourseDetailsDTO> getCourses(Pageable pageable) {
         Boolean available = true;
         if (userDetailsService.hasPrivilege("READ_ALL_COURSES"))
             available = null;
-        List<Course> courses = courseRepository.findByAvailableOrderByTitle(available);
+        List<Course> courses = courseRepository.findByAvailableOrderByTitle(available, pageable);
         return courses.stream().map(CourseDetailsDTO::new).collect(Collectors.toList());
     }
 
-    public List<SearchCourseDTO> getCoursesByTitleOrDescription(Optional<String> search) {
+    public List<SearchCourseDTO> getCoursesByTitleOrDescription(Optional<String> search, Pageable pageable) {
         Boolean available = true;
         if (userDetailsService.hasPrivilege("READ_ALL_COURSES"))
             available = null;
-        return courseRepository.findByTitleOrDescription(search.get(), available);
+        return courseRepository.findByTitleOrDescription(search.get(), available, pageable);
     }
 
-    public List<SearchCourseDTO> getCoursesByLanguageOrCategory(Optional<List<Long>> categories, Optional<List<Long>> languages) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public List<SearchCourseDTO> getCoursesByLanguageOrCategory(Optional<List<Long>> categories,
+                                                                Optional<List<Long>> languages, Pageable pageable) {
         Boolean available = true;
         if (userDetailsService.hasPrivilege("READ_ALL_COURSES"))
             available = null;
         if (categories.isPresent() && languages.isPresent())
-            return courseRepository.getCoursesByLanguageAndCategory(categories.get(), languages.get(), available);
+            return courseRepository.getCoursesByLanguageAndCategory(categories.get(), languages.get(), available, pageable);
         if (categories.isPresent())
-            return courseRepository.getCoursesByCategory(categories.get(), available);
+            return courseRepository.getCoursesByCategory(categories.get(), available, pageable);
         else
-            return courseRepository.getCoursesByLanguage(languages.get(), available);
+            return courseRepository.getCoursesByLanguage(languages.get(), available, pageable);
     }
 
     @Transactional
