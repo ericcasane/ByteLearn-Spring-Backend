@@ -1,6 +1,8 @@
 # ErJoSe REST API
 ![ErJoSe dark logo](./erjose-dark-logo.png#gh-dark-mode-only)
 ![ErJoSe light logo](./erjose-light-logo.png#gh-light-mode-only)
+- Frontend: https://bytelearn-platform.vercel.app
+- Sprig Boot Api (Swagger UI): https://erjose-api-bytelearn-api.azuremicroservices.io/swagger-ui/index.html
 
 ## Project Sprint Status
 - Sprint 1 
@@ -21,10 +23,14 @@
 - Sprint 4 
     - Generated, verified and communicated by Eric Casañé
 - Final sprint
-    - Coming soon...
-    - New features...
-    - First frontent release...
-    - Final video: . . .
+    - Generated, verified and communicated by Eric Casañé 
+    - New:
+        - Frontend with NextJS and NextUI: https://bytelearn-platform.vercel.app
+        - Sprig Boot Api: (Swagger UI) -> https://erjose-api-bytelearn-api.azuremicroservices.io/swagger-ui/index.html
+        - Frontend deployed in Vercel and Sprig Boot Api in Azure
+        - Added pagination
+        - Others
+        
 - **Youtube playlist:** https://www.youtube.com/playlist?list=PLCK4SaVBn5pfC1oPSkh3HKax94j3WpalE
 
 *Created with ❤️ by Eric Casañé, Sergio Benages and Joaquín Catanzariti*
