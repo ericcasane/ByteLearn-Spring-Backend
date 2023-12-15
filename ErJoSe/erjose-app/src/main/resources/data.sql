@@ -239,5 +239,19 @@ INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('0a8df84e-7e91-4509-9c02-e6d8b
 INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('0a8df84e-7e91-4509-9c02-e6d8b29f93b7', 3); -- teacher
 INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('0a8df84e-7e91-4509-9c02-e6d8b29f93b9', 4); -- admin
 INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('0a8df84e-7e91-4509-9c02-e6d8b29f93c8', 2); -- maria is a student
-INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('59e06854-3406-449f-8f0e-292d65756ed8', 2);
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('0a8df84e-7e91-4509-9c02-e6d8b29f93b5', 3); -- mia is a teacher
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('c40edb92-17b3-4f3a-9758-9df565aa04f1', 3); -- john is a teacher
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('59e06854-3406-449f-8f0e-292d65756ed8', 3); -- jane is a teacher
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('efd61065-409b-4962-b619-09a324ad0f50', 2); -- michael is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('cdb63d03-18c2-41bd-baeb-0303b0c49571', 2); -- emily is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('cecfd4a6-53e9-4a2e-bcd3-7a8d40773498', 2); -- william is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('3c4622cf-7626-4aa5-934e-6c17df6a52a0', 2); -- olivia is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('8e1f5141-2b12-4ea4-8fc5-0676d6da9a14', 2); -- james is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('f1434b85-72c9-4ed0-86c1-6b680ae464f3', 2); -- ava is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('8f187f98-d32d-468d-8a27-79c65a4a6b15', 2); -- david is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('aa4266d4-3696-4859-80d7-9e94d2df128c', 2); -- sophia is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('30a8c656-18f7-4536-8b9f-2ef3a03f587e', 2); -- ethan is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('63c62e33-4d01-4b93-b8e7-d799e241ea6d', 2); -- isabella is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('f32a4a2b-c648-49a7-b108-280034b4d063', 2); -- alexander is a student
+INSERT INTO user_roles (USER_ID, ROLE_ID) VALUES ('0710d6ab-0720-4b66-8402-f27e0daec5bb', 2); -- daniel is a student
 

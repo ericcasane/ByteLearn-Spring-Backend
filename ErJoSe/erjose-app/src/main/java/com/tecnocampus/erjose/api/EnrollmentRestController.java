@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +33,11 @@ public class EnrollmentRestController {
     @Operation(summary = "Gets enrollments of the user")
     public List<EnrollmentDTO> getUserEnrollments(
             @Parameter(description = "Filter by state of the lesson")
-            @RequestParam Optional<EEnrollmentState> state) {
-        return enrollmentService.getUserEnrollments(state);
+            @RequestParam Optional<EEnrollmentState> state,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size){
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return enrollmentService.getUserEnrollments(state, pageRequest);
     }
 
     @PostMapping("/{enrollmentId}/review")

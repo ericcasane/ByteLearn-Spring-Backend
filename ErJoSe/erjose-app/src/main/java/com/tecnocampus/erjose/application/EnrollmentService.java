@@ -14,6 +14,7 @@ import com.tecnocampus.erjose.domain.Review;
 import com.tecnocampus.erjose.domain.User;
 import com.tecnocampus.erjose.domain.enumeration.EEnrollmentState;
 import com.tecnocampus.erjose.persistence.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,12 +45,12 @@ public class EnrollmentService {
         this.reviewRepository = reviewRepository;
     }
 
-    public List<EnrollmentDTO> getUserEnrollments(Optional<EEnrollmentState> state){
+    public List<EnrollmentDTO> getUserEnrollments(Optional<EEnrollmentState> state, Pageable pageable){
         String username = userDetailsService.getAuthenticatedUsername();
         if (state.isEmpty())
-            return enrollmentRepository.findByUsername(username);
+            return enrollmentRepository.findByUsername(username, pageable);
         else
-            return enrollmentRepository.findByUserAndState(username, state.get());
+            return enrollmentRepository.findByUserAndState(username, state.get(), pageable);
     }
 
     @Transactional

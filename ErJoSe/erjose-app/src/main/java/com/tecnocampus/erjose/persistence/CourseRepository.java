@@ -3,6 +3,7 @@ package com.tecnocampus.erjose.persistence;
 import com.tecnocampus.erjose.application.dto.SearchCourseDTO;
 import com.tecnocampus.erjose.application.dto.StudentDTO;
 import com.tecnocampus.erjose.domain.Course;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,7 +17,7 @@ public interface CourseRepository extends JpaRepository<Course, String>  {
         LEFT JOIN c.categories
         WHERE (:available IS NULL OR c.available = :available)
         """)
-    List<Course> findByAvailableOrderByTitle(Boolean available);
+    List<Course> findByAvailableOrderByTitle(Boolean available, Pageable pageable);
 
     boolean existsByTitle(String title);
 
@@ -28,7 +29,7 @@ public interface CourseRepository extends JpaRepository<Course, String>  {
             AND (:available IS NULL OR c.available = :available)
             ORDER BY c.title
             """)
-    List<SearchCourseDTO> findByTitleOrDescription(String search, Boolean available);
+    List<SearchCourseDTO> findByTitleOrDescription(String search, Boolean available, Pageable pageable);
 
     @Query("""
         SELECT new com.tecnocampus.erjose.application.dto.SearchCourseDTO(c.title, c.description)
@@ -38,7 +39,7 @@ public interface CourseRepository extends JpaRepository<Course, String>  {
         WHERE cat.id IN :categories AND l.id IN :languages AND (:available IS NULL OR c.available = :available)
         ORDER BY c.title
         """)
-    List<SearchCourseDTO> getCoursesByLanguageAndCategory(List<Long> categories, List<Long> languages, Boolean available);
+    List<SearchCourseDTO> getCoursesByLanguageAndCategory(List<Long> categories, List<Long> languages, Boolean available, Pageable pageable);
 
     @Query("""
             SELECT new com.tecnocampus.erjose.application.dto.SearchCourseDTO(c.title, c.description)
@@ -47,7 +48,7 @@ public interface CourseRepository extends JpaRepository<Course, String>  {
             WHERE cat.id IN :categories AND (:available IS NULL OR c.available = :available)
             ORDER BY c.title
             """)
-    List<SearchCourseDTO> getCoursesByCategory(List<Long> categories, Boolean available);
+    List<SearchCourseDTO> getCoursesByCategory(List<Long> categories, Boolean available, Pageable pageable);
 
     @Query("""
             SELECT new com.tecnocampus.erjose.application.dto.SearchCourseDTO(c.title, c.description)
@@ -56,7 +57,7 @@ public interface CourseRepository extends JpaRepository<Course, String>  {
             WHERE l.id IN :languages AND (:available IS NULL OR c.available = :available)
             ORDER BY c.title
             """)
-    List<SearchCourseDTO> getCoursesByLanguage(List<Long> languages, Boolean available);
+    List<SearchCourseDTO> getCoursesByLanguage(List<Long> languages, Boolean available, Pageable pageable);
 
     //Gets the current students and the ones who had finished the course 2 months ago at most
     @Query("""

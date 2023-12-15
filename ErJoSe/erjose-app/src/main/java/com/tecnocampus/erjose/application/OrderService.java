@@ -6,6 +6,7 @@ import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
 import com.tecnocampus.erjose.application.exception.UserNotFoundException;
 import com.tecnocampus.erjose.domain.*;
 import com.tecnocampus.erjose.persistence.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,25 +51,14 @@ public class OrderService {
             course.addStudent(user);
             Enrollment enrollment = new Enrollment(user, course);
             enrollmentRepository.save(enrollment);
+            enrollment.createEnrollmentLessons(course.getLessons());
             user.addEnrollment(enrollment);
-            for (Lesson lesson : course.getLessons()) {
-                EnrollmentLesson enrollmentLesson = new EnrollmentLesson(enrollment, lesson);
-                enrollmentLessonRepository.save(enrollmentLesson);
-            }
         }
         return new OrderDTO(order);
     }
 
-    public List<OrderCreateDTO> getOrders() {
-        /*String username = userDetailsService.getAuthenticatedUsername();
-        if (username != null && userDetailsService.hasPrivilege("ROLE_STUDENT")) {
-            return orderRepository.findByUserId(username).stream()
-                    .map(OrderDTO::new)
-                    .collect(Collectors.toList());
-        }*/
-        return orderRepository.findAll().stream()
-                .map(OrderCreateDTO::new)
-                .collect(Collectors.toList());
+    public List<OrderDTO> getOrders(Pageable pageable) {
+        return orderRepository.getAllBy(pageable);
     }
 
 }
