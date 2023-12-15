@@ -95,4 +95,11 @@ public class Enrollment {
         }
     }
 
+    public void createEnrollmentLessons(List<Lesson> lessons) {
+        for (Lesson lesson : lessons) {
+            EnrollmentLesson enrollmentLesson = new EnrollmentLesson(this, lesson);
+            enrollmentLessons.add(enrollmentLesson);
+        }
+    }
+
 }
