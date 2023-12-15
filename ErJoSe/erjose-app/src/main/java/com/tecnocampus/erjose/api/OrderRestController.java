@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +34,10 @@ public class OrderRestController {
     @GetMapping
     @PreAuthorize("hasAuthority('READ_ORDER')")
     @Operation(summary = "Get all orders")
-    public List<OrderCreateDTO> getOrders() {
-        return orderService.getOrders();
+    public List<OrderDTO> getOrders(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "10") int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return orderService.getOrders(pageRequest);
     }
 
 }

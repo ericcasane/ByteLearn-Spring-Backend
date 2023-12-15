@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,10 +27,13 @@ public class ReviewRestController {
 
     @GetMapping
     @Operation(summary = "Get all reviews", description = "Get all reviews. orderBy options: createdAt, rating")
-    public List<ReviewDetailsDTO> getReviews(@RequestParam Optional<String> orderBy) {
+    public List<ReviewDetailsDTO> getReviews(@RequestParam Optional<String> orderBy,
+                                             @RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "10") int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
         if (orderBy.isEmpty())
-            return reviewService.getReviews();
-        return reviewService.getReviews(orderBy.get());
+            return reviewService.getReviews(pageRequest);
+        return reviewService.getReviews(orderBy.get(), pageRequest);
     }
 
     @PatchMapping("/{reviewId}")

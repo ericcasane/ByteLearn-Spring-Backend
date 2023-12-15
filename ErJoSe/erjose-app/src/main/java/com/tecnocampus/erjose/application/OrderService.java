@@ -6,6 +6,7 @@ import com.tecnocampus.erjose.application.exception.CourseNotFoundException;
 import com.tecnocampus.erjose.application.exception.UserNotFoundException;
 import com.tecnocampus.erjose.domain.*;
 import com.tecnocampus.erjose.persistence.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,10 +57,8 @@ public class OrderService {
         return new OrderDTO(order);
     }
 
-    public List<OrderCreateDTO> getOrders() {
-        return orderRepository.findAll().stream()
-                .map(OrderCreateDTO::new)
-                .collect(Collectors.toList());
+    public List<OrderDTO> getOrders(Pageable pageable) {
+        return orderRepository.getAllBy(pageable);
     }
 
 }

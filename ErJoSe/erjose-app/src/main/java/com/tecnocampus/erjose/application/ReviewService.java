@@ -6,6 +6,7 @@ import com.tecnocampus.erjose.application.exception.UnauthorizedException;
 import com.tecnocampus.erjose.domain.Review;
 import com.tecnocampus.erjose.application.dto.ReviewDetailsDTO;
 import com.tecnocampus.erjose.persistence.ReviewRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +22,15 @@ public class ReviewService {
         this.userDetailsService = userDetailsService;
     }
 
-    public List<ReviewDetailsDTO> getReviews() {
-        return reviewRepository.getAllBy();
+    public List<ReviewDetailsDTO> getReviews(Pageable pageable) {
+        return reviewRepository.getAllBy(pageable);
     }
 
-    public List<ReviewDetailsDTO> getReviews(String orderBy) {
+    public List<ReviewDetailsDTO> getReviews(String orderBy, Pageable pageable) {
         if (orderBy.equals("createdAt"))
-            return reviewRepository.findAllByOrderByCreatedAtAsc();
+            return reviewRepository.findAllByOrderByCreatedAtAsc(pageable);
         else if (orderBy.equals("rating"))
-            return reviewRepository.findAllByOrderByRatingAsc();
+            return reviewRepository.findAllByOrderByRatingAsc(pageable);
         else
             throw new ResourceNotFoundException("Invalid orderBy parameter");
     }

@@ -10,13 +10,13 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
-    List<ReviewDetailsDTO> getAllBy();
+    List<ReviewDetailsDTO> getAllBy(Pageable pageable);
 
     List<ReviewDetailsDTO> findByUsername(String username);
 
-    List<ReviewDetailsDTO> findAllByOrderByCreatedAtAsc();
+    List<ReviewDetailsDTO> findAllByOrderByCreatedAtAsc(Pageable pageable);
 
-    List<ReviewDetailsDTO> findAllByOrderByRatingAsc();
+    List<ReviewDetailsDTO> findAllByOrderByRatingAsc(Pageable pageable);
 
     @Query("""
             SELECT new com.tecnocampus.erjose.application.dto.TopTeacherDTO(t.id, CONCAT(t.firstname, ' ', t.lastname), AVG(r.rating))
