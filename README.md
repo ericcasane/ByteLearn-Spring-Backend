@@ -28,8 +28,10 @@
         - Frontend with NextJS and NextUI: https://bytelearn-platform.vercel.app
         - Sprig Boot Api: (Swagger UI) -> https://erjose-api-bytelearn-api.azuremicroservices.io/swagger-ui/index.html
         - Frontend deployed in Vercel and Sprig Boot Api in Azure
+        - MySQL Database
         - Added pagination
         - Others
+    - Final video: https://youtu.be/vFWb5POg2_k
         
 - **Youtube playlist:** https://www.youtube.com/playlist?list=PLCK4SaVBn5pfC1oPSkh3HKax94j3WpalE
 
