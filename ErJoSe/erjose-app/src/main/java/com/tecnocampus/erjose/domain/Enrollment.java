@@ -6,10 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
 
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,10 +18,10 @@ public class Enrollment {
     private Integer id;
 
     @ManyToOne
-    private User userId;
+    private User user;
 
     @ManyToOne
-    private Course courseId;
+    private Course course;
 
     @NotNull
     @Min(value = 0, message = "Progress must be greater than 0")
@@ -51,22 +48,22 @@ public class Enrollment {
         this.state = EEnrollmentState.NOT_STARTED;
     }
 
-    public Enrollment(User userId, Course courseId) {
+    public Enrollment(User user, Course course) {
         this();
-        this.userId = userId;
-        this.courseId = courseId;
+        this.user = user;
+        this.course = course;
     }
 
     public User getUser() {
-        return userId;
+        return user;
     }
 
     public Course getCourse() {
-        return courseId;
+        return course;
     }
 
     public String getCourseId() {
-        return courseId.getId();
+        return course.getId();
     }
 
     public Integer getProgress() {
@@ -82,12 +79,12 @@ public class Enrollment {
     }
 
     public boolean halfLessonsDone() {
-        return this.progress >= this.courseId.getLessons().size() / 2;
+        return this.progress >= this.course.getLessons().size() / 2;
     }
 
     public void incrementProgress() {
         this.progress++;
-        if (this.progress.equals(this.courseId.getLessons().size())) {
+        if (this.progress.equals(this.course.getLessons().size())) {
             this.state = EEnrollmentState.COMPLETED;
             this.finishedAt = LocalDateTime.now();
         } else {

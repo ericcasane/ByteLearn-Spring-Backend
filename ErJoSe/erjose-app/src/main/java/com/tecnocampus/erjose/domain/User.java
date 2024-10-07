@@ -65,7 +65,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany (
-            mappedBy = "userId",
+            mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

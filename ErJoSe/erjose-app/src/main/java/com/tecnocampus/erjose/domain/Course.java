@@ -72,7 +72,7 @@ public class Course {
     private List<Lesson> lessons;
 
     @OneToMany (
-            mappedBy = "courseId",
+            mappedBy = "course",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

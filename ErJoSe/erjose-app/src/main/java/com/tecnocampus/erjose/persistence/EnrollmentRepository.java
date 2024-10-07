@@ -14,23 +14,23 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Integer>
     @Query("""
         SELECT e
         FROM Enrollment e
-        WHERE e.userId.username = :username AND e.state = :state
+        WHERE e.user.username = :username AND e.state = :state
         """)
-    public List<EnrollmentDTO> findByUserAndState(String username, EEnrollmentState state, Pageable pageable);
+    List<EnrollmentDTO> findByUserAndState(String username, EEnrollmentState state, Pageable pageable);
 
     @Query("""
         SELECT e
         FROM Enrollment e
-        WHERE e.userId.username = :username
+        WHERE e.user.username = :username
         """)
-    public List<EnrollmentDTO> findByUsername(String username, Pageable pageable);
+    List<EnrollmentDTO> findByUsername(String username, Pageable pageable);
 
     @Query("""
-            SELECT new com.tecnocampus.erjose.application.dto.TopStudentDTO(e.userId.username, CONCAT(e.userId.firstname, '', e.userId.lastname) , CAST(COUNT(e) AS INTEGER))
+            SELECT new com.tecnocampus.erjose.application.dto.TopStudentDTO(e.user.username, CONCAT(e.user.firstname, '', e.user.lastname) , CAST(COUNT(e) AS INTEGER))
             FROM Enrollment e
             WHERE e.state = com.tecnocampus.erjose.domain.enumeration.EEnrollmentState.COMPLETED
-            GROUP BY e.userId
+            GROUP BY e.user
             ORDER BY COUNT(e) DESC
             """)
-    public List<TopStudentDTO> findTopStudents(Pageable pageable);
+    List<TopStudentDTO> findTopStudents(Pageable pageable);
 }
