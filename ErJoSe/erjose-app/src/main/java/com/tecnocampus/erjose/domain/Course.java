@@ -41,7 +41,7 @@ public class Course {
     @DecimalMin(value = "0.0", inclusive = true, message = "Price must be greater than 0")
     private BigDecimal currentPrice;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    @Column(nullable = false)
     private boolean available;
 
     @ManyToMany(fetch=FetchType.EAGER)

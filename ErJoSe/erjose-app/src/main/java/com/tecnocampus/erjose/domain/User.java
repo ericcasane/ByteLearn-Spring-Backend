@@ -49,7 +49,7 @@ public class User {
     private Gender gender;
 
     @NotBlank
-    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    @Column(nullable = false)
     private boolean active;
 
     @CreationTimestamp
