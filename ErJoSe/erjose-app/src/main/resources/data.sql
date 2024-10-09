@@ -1,21 +1,21 @@
 -- Creación de la base de datos con datos de prueba
 -- Languages of the courses
-INSERT INTO languages (id, name, locale, default_language)
+INSERT INTO languages (name, locale, default_language)
 VALUES
-    ('1', 'English', 'en_US', true),
-    ('2', 'Spanish', 'es_ES', false),
-    ('3', 'Catala', 'ca_ES', false),
-    ('4', 'French', 'fr_FR', false),
-    ('5', 'German', 'de_DE', false);
+    ('English', 'en_US', true), -- 1
+    ('Spanish', 'es_ES', false), -- 2
+    ('Catala', 'ca_ES', false), -- 3
+    ('French', 'fr_FR', false), -- 4
+    ('German', 'de_DE', false); -- 5
 
 -- Categories of the courses
-INSERT INTO categories (id, name, description)
+INSERT INTO categories (name, description)
 VALUES
-    ('1', 'Desarrollo Web', 'Cursos relacionados con el desarrollo y diseño de sitios web.'),
-    ('2', 'Ciencias de la Información', 'Cursos sobre análisis y gestión de datos.'),
-    ('3', 'Desarrollo de Aplicaciones Móviles', 'Cursos para aprender a desarrollar aplicaciones para dispositivos móviles.'),
-    ('4', 'Lenguajes de Programación', 'Cursos sobre programación avanzada y desarrollo de software.'),
-    ('5', 'Desarrollo de Videojuegos', 'Cursos sobre el diseño y desarrollo de videojuegos.');
+    ('Desarrollo Web', 'Cursos relacionados con el desarrollo y diseño de sitios web.'), -- 1
+    ('Ciencias de la Información', 'Cursos sobre análisis y gestión de datos.'), -- 2
+    ('Desarrollo de Aplicaciones Móviles', 'Cursos para aprender a desarrollar aplicaciones para dispositivos móviles.'), -- 3
+    ('Lenguajes de Programación', 'Cursos sobre programación avanzada y desarrollo de software.'), -- 4
+    ('Desarrollo de Videojuegos', 'Cursos sobre el diseño y desarrollo de videojuegos.'); -- 5
 
 -- Cursos
 INSERT INTO courses (id, title, description, current_price, available, created_at, updated_at, language_id, image_url)
